@@ -10,7 +10,7 @@
     </parent>
     <groupId>mingzuozhibi</groupId>
     <artifactId>core-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0</version>
     <name>core-server</name>
     <description>mingzuozhibi.core-server</description>
 
