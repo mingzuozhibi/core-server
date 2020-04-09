@@ -2,6 +2,7 @@ package mingzuozhibi.coreserver.auth.config;
 
 import mingzuozhibi.coreserver.auth.token.Token;
 import mingzuozhibi.coreserver.auth.token.TokenRepository;
+import mingzuozhibi.coreserver.auth.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,7 +23,11 @@ import java.util.stream.Collectors;
 @Component
 public class SecurityFilter implements Filter {
 
-    private static Map<String, Authentication> authenticationMap = new ConcurrentHashMap<>();
+    private Map<User, Authentication> authenticationMap = new ConcurrentHashMap<>();
+
+    public void clearUser(User user) {
+        authenticationMap.remove(user);
+    }
 
     @Autowired
     private TokenRepository tokenRepository;
@@ -41,22 +46,22 @@ public class SecurityFilter implements Filter {
     }
 
     private Authentication getAuthentication(Token token) {
-        return authenticationMap.computeIfAbsent(token.getUuid(), uuid -> new MyAuthentication(token));
+        return authenticationMap.computeIfAbsent(token.getUser(), MyAuthentication::new);
     }
 
     private static class MyAuthentication implements Authentication {
 
-        private final Token token;
+        private User user;
         private boolean authenticated;
 
-        public MyAuthentication(Token token) {
-            this.token = token;
+        public MyAuthentication(User user) {
+            this.user = user;
             this.authenticated = true;
         }
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
-            return token.getUser().getRoles().stream()
+            return user.getRoles().stream()
                 .map(role -> "ROLE_" + role)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
@@ -89,7 +94,7 @@ public class SecurityFilter implements Filter {
 
         @Override
         public String getName() {
-            return token.getUser().getUsername();
+            return user.getUsername();
         }
     }
 
