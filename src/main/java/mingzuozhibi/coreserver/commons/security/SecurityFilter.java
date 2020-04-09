@@ -66,6 +66,8 @@ public class SecurityFilter implements Filter {
 
     private static class UserAuthentication implements Authentication {
 
+        private static final long serialVersionUID = 1L;
+
         private User user;
         private boolean authenticated;
 
