@@ -38,9 +38,9 @@ public class User extends BaseModel implements Serializable {
     /**
      * Guest <br>
      * Login <br>
-     * Disc_Admin <br>
-     * User_Admin <br>
-     * Root_Admin <br>
+     * DiscAdmin <br>
+     * UserAdmin <br>
+     * RootAdmin <br>
      */
 
     @ElementCollection

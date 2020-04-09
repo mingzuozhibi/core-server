@@ -24,7 +24,7 @@ public class UserController extends BaseController {
 
     @Transactional
     @GetMapping("/api/users")
-    @PreAuthorize("hasRole('User_Admin')")
+    @PreAuthorize("hasRole('UserAdmin')")
     public String findAll(@RequestParam(defaultValue = "1") int page,
                           @RequestParam(defaultValue = "20") int pageSize) {
         // Find User Of Page
@@ -36,7 +36,7 @@ public class UserController extends BaseController {
 
     @Transactional
     @GetMapping("/api/users/{id}")
-    @PreAuthorize("hasRole('User_Admin')")
+    @PreAuthorize("hasRole('UserAdmin')")
     public String findById(@PathVariable Long id) {
         // Find User By Id
         Optional<User> userOpt = userRepository.findById(id);
@@ -49,7 +49,7 @@ public class UserController extends BaseController {
 
     @Transactional
     @GetMapping("/api/users/find/username/{username}")
-    @PreAuthorize("hasRole('User_Admin')")
+    @PreAuthorize("hasRole('UserAdmin')")
     public String findByUsername(@PathVariable String username) {
         // Find User By Username
         Optional<User> userOpt = userRepository.findByUsername(username);
@@ -68,7 +68,7 @@ public class UserController extends BaseController {
 
     @Transactional
     @PutMapping("/api/users/{id}")
-    @PreAuthorize("hasRole('User_Admin')")
+    @PreAuthorize("hasRole('UserAdmin')")
     public String setOne(@PathVariable Long id, @RequestBody SetForm form) {
         // Find User By Id
         Optional<User> userOpt = userRepository.findById(id);
