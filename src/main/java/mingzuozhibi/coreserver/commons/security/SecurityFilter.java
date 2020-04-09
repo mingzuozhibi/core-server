@@ -1,6 +1,6 @@
 package mingzuozhibi.coreserver.commons.security;
 
-import mingzuozhibi.coreserver.modules.auth.token.Token;
+import lombok.extern.slf4j.Slf4j;
 import mingzuozhibi.coreserver.modules.auth.token.TokenRepository;
 import mingzuozhibi.coreserver.modules.auth.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,49 +12,64 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
+@WebFilter
 @Component
 public class SecurityFilter implements Filter {
-
-    private Map<User, Authentication> authenticationMap = new ConcurrentHashMap<>();
-
-    public void clearUser(User user) {
-        authenticationMap.remove(user);
-    }
 
     @Autowired
     private TokenRepository tokenRepository;
 
+    private Set<Long> userIds = Collections.synchronizedSet(new HashSet<>());
+
+    public void resetUser(User user) {
+        userIds.add(user.getId());
+        log.debug("resetUser(userId={})", user.getId());
+    }
+
     @Override
     @Transactional
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String uuid = ((HttpServletRequest) request).getHeader("x-token");
-        if (uuid != null && !uuid.isEmpty()) {
-            tokenRepository.findByUuid(uuid).ifPresent(token -> {
-                SecurityContext context = SecurityContextHolder.getContext();
-                context.setAuthentication(getAuthentication(token));
-            });
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context.getAuthentication() instanceof UserAuthentication) {
+            User user = ((UserAuthentication) context.getAuthentication()).getDetails();
+            if (userIds.remove(user.getId())) {
+                log.debug("resetUser(userId={}) reset", user.getId());
+                trySetContext((HttpServletRequest) request, context);
+            }
+        } else {
+            trySetContext((HttpServletRequest) request, context);
         }
         chain.doFilter(request, response);
     }
 
-    private Authentication getAuthentication(Token token) {
-        return authenticationMap.computeIfAbsent(token.getUser(), MyAuthentication::new);
+    private void trySetContext(HttpServletRequest request, SecurityContext context) {
+        String uuid = request.getHeader("x-token");
+        if (uuid != null && !uuid.isEmpty()) {
+            log.debug("trySetContext()");
+            tokenRepository.findByUuid(uuid).ifPresent(token -> {
+                log.debug("trySetContext() beset");
+                context.setAuthentication(new UserAuthentication(token.getUser()));
+            });
+        }
     }
 
-    private static class MyAuthentication implements Authentication {
+    private static class UserAuthentication implements Authentication {
 
         private User user;
         private boolean authenticated;
 
-        public MyAuthentication(User user) {
+        public UserAuthentication(User user) {
             this.user = user;
             this.authenticated = true;
         }
@@ -73,8 +88,8 @@ public class SecurityFilter implements Filter {
         }
 
         @Override
-        public Object getDetails() {
-            return null;
+        public User getDetails() {
+            return user;
         }
 
         @Override
