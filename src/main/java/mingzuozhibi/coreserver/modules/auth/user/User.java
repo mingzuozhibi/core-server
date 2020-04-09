@@ -1,13 +1,12 @@
-package mingzuozhibi.coreserver.auth.user;
+package mingzuozhibi.coreserver.modules.auth.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mingzuozhibi.coreserver.base.BaseModel;
-import mingzuozhibi.coreserver.base.gson.Ignore;
+import mingzuozhibi.coreserver.commons.base.BaseModel;
+import mingzuozhibi.coreserver.commons.gson.Ignore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
@@ -17,7 +16,9 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User extends BaseModel implements Serializable {
+public class User extends BaseModel {
+
+    private static final long serialVersionUID = 1L;
 
     @Column(length = 32, nullable = false, unique = true)
     private String username;

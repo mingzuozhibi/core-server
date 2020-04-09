@@ -1,9 +1,9 @@
-package mingzuozhibi.coreserver.base;
+package mingzuozhibi.coreserver.commons.base;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mingzuozhibi.coreserver.base.gson.Ignore;
+import mingzuozhibi.coreserver.commons.gson.Ignore;
 
 import javax.persistence.*;
 import java.io.Serializable;

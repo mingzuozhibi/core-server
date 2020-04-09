@@ -1,10 +1,10 @@
-package mingzuozhibi.coreserver.base;
+package mingzuozhibi.coreserver.commons.base;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import mingzuozhibi.coreserver.base.gson.GsonFactory;
+import mingzuozhibi.coreserver.commons.gson.GsonFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.ExceptionHandler;
