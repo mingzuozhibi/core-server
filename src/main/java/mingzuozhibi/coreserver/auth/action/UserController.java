@@ -21,28 +21,8 @@ public class UserController extends BaseController {
     @Autowired
     private UserRepository userRepository;
 
-    @Data
-    private static class AddForm {
-        private String username;
-        private String password;
-        private boolean enabled = true;
-    }
-
     @Transactional
-    @PostMapping("/register")
-    public String addOne(@RequestBody AddForm form) {
-        // Check User Exists
-        if (userRepository.existsByUsername(form.username)) {
-            return errorMessage("用户名已存在");
-        }
-        // Save User
-        User user = new User(form.username, form.password, form.enabled);
-        userRepository.save(user);
-        return objectResult(user);
-    }
-
-    @Transactional
-    @GetMapping("/users")
+    @GetMapping("/api/users")
     public String findAll(@RequestParam(defaultValue = "1") int page,
                           @RequestParam(defaultValue = "20") int pageSize) {
         // Find User Of Page
@@ -53,7 +33,7 @@ public class UserController extends BaseController {
     }
 
     @Transactional
-    @GetMapping("/users/{id}")
+    @GetMapping("/api/users/{id}")
     public String findById(@PathVariable Long id) {
         // Find User By Id
         Optional<User> userOpt = userRepository.findById(id);
@@ -65,7 +45,7 @@ public class UserController extends BaseController {
     }
 
     @Transactional
-    @GetMapping("/users/find/username/{username}")
+    @GetMapping("/api/users/find/username/{username}")
     public String findByUsername(@PathVariable String username) {
         // Find User By Username
         Optional<User> userOpt = userRepository.findByUsername(username);
@@ -83,7 +63,7 @@ public class UserController extends BaseController {
     }
 
     @Transactional
-    @PutMapping("/users/{id}")
+    @PutMapping("/api/users/{id}")
     public String setOne(@PathVariable Long id, @RequestBody SetForm form) {
         // Find User By Id
         Optional<User> userOpt = userRepository.findById(id);
