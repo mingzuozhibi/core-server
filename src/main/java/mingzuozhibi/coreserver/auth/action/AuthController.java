@@ -8,6 +8,7 @@ import mingzuozhibi.coreserver.auth.user.UserRepository;
 import mingzuozhibi.coreserver.base.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -102,19 +103,19 @@ public class AuthController extends BaseController {
         return objectResult(token);
     }
 
-//    @Transactional
-//    @DeleteMapping("/api/auth/token/{id}")
-//    public String dropToken(@PathVariable Long id) {
-//        // Find Token By Id
-//        Optional<Token> tokenOpt = tokenRepository.findById(id);
-//        if (tokenOpt.isEmpty()) {
-//            return errorMessage("Token不存在");
-//        }
-//        Token token = tokenOpt.get();
-//        // Drop Token
-//        tokenRepository.delete(token);
-//        return objectResult(token);
-//    }
+    @Transactional
+    @DeleteMapping("/api/auth/token")
+    public String dropToken(@RequestBody TokenForm form) {
+        // Find Token By Uuid
+        Optional<Token> tokenOpt = tokenRepository.findByUuid(form.uuid);
+        if (tokenOpt.isEmpty()) {
+            return errorMessage("Token不存在");
+        }
+        Token token = tokenOpt.get();
+        // Drop Token
+        tokenRepository.delete(token);
+        return objectResult(token);
+    }
 
     private Token createToken(User user) {
         return tokenRepository.save(new Token(user));
