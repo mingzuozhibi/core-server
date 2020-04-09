@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mingzuozhibi.coreserver.base.BaseModel;
+import mingzuozhibi.coreserver.base.gson.Ignore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,6 +22,7 @@ public class User extends BaseModel implements Serializable {
     @Column(length = 32, nullable = false, unique = true)
     private String username;
 
+    @Ignore
     @Column(length = 32, nullable = false)
     private String password;
 

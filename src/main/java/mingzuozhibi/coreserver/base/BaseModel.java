@@ -3,7 +3,7 @@ package mingzuozhibi.coreserver.base;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mingzuozhibi.coreserver.base.gson.NotJson;
+import mingzuozhibi.coreserver.base.gson.Ignore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,7 +18,7 @@ public abstract class BaseModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotJson
+    @Ignore
     @Version
     private Long version;
 
