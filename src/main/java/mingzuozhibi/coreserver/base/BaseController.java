@@ -7,12 +7,20 @@ import com.google.gson.JsonPrimitive;
 import mingzuozhibi.coreserver.base.gson.GsonFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Objects;
 
 public class BaseController {
 
-    private Gson gson = GsonFactory.createGson();
+    protected Gson gson = GsonFactory.createGson();
+
+    @ResponseBody
+    @ExceptionHandler
+    public String errorHandler(Exception e) {
+        return errorMessage(e.getMessage());
+    }
 
     public String errorMessage(String error) {
         Objects.requireNonNull(error);
