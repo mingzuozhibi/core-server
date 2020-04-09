@@ -7,6 +7,7 @@ import mingzuozhibi.coreserver.base.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ public class UserController extends BaseController {
 
     @Transactional
     @GetMapping("/api/users")
+    @PreAuthorize("hasRole('User_Admin')")
     public String findAll(@RequestParam(defaultValue = "1") int page,
                           @RequestParam(defaultValue = "20") int pageSize) {
         // Find User Of Page
@@ -34,10 +36,11 @@ public class UserController extends BaseController {
 
     @Transactional
     @GetMapping("/api/users/{id}")
+    @PreAuthorize("hasRole('User_Admin')")
     public String findById(@PathVariable Long id) {
         // Find User By Id
         Optional<User> userOpt = userRepository.findById(id);
-        if (!userOpt.isPresent()) {
+        if (userOpt.isEmpty()) {
             return errorMessage("用户Id不存在");
         }
         User user = userOpt.get();
@@ -46,10 +49,11 @@ public class UserController extends BaseController {
 
     @Transactional
     @GetMapping("/api/users/find/username/{username}")
+    @PreAuthorize("hasRole('User_Admin')")
     public String findByUsername(@PathVariable String username) {
         // Find User By Username
         Optional<User> userOpt = userRepository.findByUsername(username);
-        if (!userOpt.isPresent()) {
+        if (userOpt.isEmpty()) {
             return errorMessage("用户名不存在");
         }
         User user = userOpt.get();
@@ -64,10 +68,11 @@ public class UserController extends BaseController {
 
     @Transactional
     @PutMapping("/api/users/{id}")
+    @PreAuthorize("hasRole('User_Admin')")
     public String setOne(@PathVariable Long id, @RequestBody SetForm form) {
         // Find User By Id
         Optional<User> userOpt = userRepository.findById(id);
-        if (!userOpt.isPresent()) {
+        if (userOpt.isEmpty()) {
             return errorMessage("用户Id不存在");
         }
         User user = userOpt.get();
