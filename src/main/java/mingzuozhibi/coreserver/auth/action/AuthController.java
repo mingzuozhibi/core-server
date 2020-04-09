@@ -74,11 +74,16 @@ public class AuthController extends BaseController {
         return objectResult(createToken(user));
     }
 
+    @Data
+    private static class TokenForm {
+        private String uuid;
+    }
+
     @Transactional
     @PostMapping("/api/auth/token")
-    public String authToken(@RequestBody String uuid) {
+    public String authToken(@RequestBody TokenForm form) {
         // Find Token By Uuid
-        Optional<Token> tokenOpt = tokenRepository.findByUuid(uuid);
+        Optional<Token> tokenOpt = tokenRepository.findByUuid(form.uuid);
         if (tokenOpt.isEmpty()) {
             return errorMessage("Token不存在");
         }
