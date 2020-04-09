@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
+@Entity(name = "auth_user")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -44,7 +44,7 @@ public class User extends BaseModel implements Serializable {
      */
 
     @ElementCollection
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "auth_user_roles", joinColumns = @JoinColumn(name = "user_id"))
     private Set<String> roles = new HashSet<>();
 
     public User(String username, String password, boolean enabled) {

@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import java.time.Instant;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "auth_token")
 @Getter
 @Setter
 @NoArgsConstructor
