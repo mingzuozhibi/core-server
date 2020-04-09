@@ -1,11 +1,11 @@
-package mingzuozhibi.coreserver.auth.action;
+package mingzuozhibi.coreserver.modules.auth.action;
 
 import lombok.Data;
-import mingzuozhibi.coreserver.auth.token.Token;
-import mingzuozhibi.coreserver.auth.token.TokenRepository;
-import mingzuozhibi.coreserver.auth.user.User;
-import mingzuozhibi.coreserver.auth.user.UserRepository;
-import mingzuozhibi.coreserver.base.BaseController;
+import mingzuozhibi.coreserver.modules.auth.token.Token;
+import mingzuozhibi.coreserver.modules.auth.token.TokenRepository;
+import mingzuozhibi.coreserver.modules.auth.user.User;
+import mingzuozhibi.coreserver.modules.auth.user.UserRepository;
+import mingzuozhibi.coreserver.commons.base.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;

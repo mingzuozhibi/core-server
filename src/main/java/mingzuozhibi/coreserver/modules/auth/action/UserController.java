@@ -1,9 +1,9 @@
-package mingzuozhibi.coreserver.auth.action;
+package mingzuozhibi.coreserver.modules.auth.action;
 
 import lombok.Data;
-import mingzuozhibi.coreserver.auth.user.User;
-import mingzuozhibi.coreserver.auth.user.UserRepository;
-import mingzuozhibi.coreserver.base.BaseController;
+import mingzuozhibi.coreserver.modules.auth.user.User;
+import mingzuozhibi.coreserver.modules.auth.user.UserRepository;
+import mingzuozhibi.coreserver.commons.base.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

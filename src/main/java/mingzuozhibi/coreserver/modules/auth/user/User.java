@@ -1,10 +1,10 @@
-package mingzuozhibi.coreserver.auth.user;
+package mingzuozhibi.coreserver.modules.auth.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mingzuozhibi.coreserver.base.BaseModel;
-import mingzuozhibi.coreserver.base.gson.Ignore;
+import mingzuozhibi.coreserver.commons.base.BaseModel;
+import mingzuozhibi.coreserver.commons.gson.Ignore;
 
 import javax.persistence.*;
 import java.io.Serializable;

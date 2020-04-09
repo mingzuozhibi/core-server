@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.base.gson;
+package mingzuozhibi.coreserver.commons.gson;
 
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;

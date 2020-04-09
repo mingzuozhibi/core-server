@@ -1,8 +1,8 @@
-package mingzuozhibi.coreserver.auth.config;
+package mingzuozhibi.coreserver.commons.security;
 
-import mingzuozhibi.coreserver.auth.token.Token;
-import mingzuozhibi.coreserver.auth.token.TokenRepository;
-import mingzuozhibi.coreserver.auth.user.User;
+import mingzuozhibi.coreserver.modules.auth.token.Token;
+import mingzuozhibi.coreserver.modules.auth.token.TokenRepository;
+import mingzuozhibi.coreserver.modules.auth.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

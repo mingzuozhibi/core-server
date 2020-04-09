@@ -1,6 +1,6 @@
-package mingzuozhibi.coreserver.test;
+package mingzuozhibi.coreserver.modules.test;
 
-import mingzuozhibi.coreserver.base.BaseController;
+import mingzuozhibi.coreserver.commons.base.BaseController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

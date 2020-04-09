@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.auth.config;
+package mingzuozhibi.coreserver.commons.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
