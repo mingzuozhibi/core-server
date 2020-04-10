@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mingzuozhibi.coreserver.commons.base.BaseModel;
-import mingzuozhibi.coreserver.commons.logger.JmsLogger.Message;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,27 +15,19 @@ import java.time.Instant;
 @NoArgsConstructor
 public class Logger extends BaseModel {
 
-    @Column
+    @Column(nullable = false, length = 10)
     private String level;
 
-    @Column
+    @Column(nullable = false, length = 20)
     private String module;
 
-    @Column
+    @Column(nullable = false, length = 1000)
     private String content;
 
-    @Column
+    @Column(nullable = false)
     private Instant createOn;
 
-    @Column
+    @Column(nullable = false)
     private Instant acceptOn;
-
-    public Logger(Message message) {
-        this.level = message.getLevel().name();
-        this.module = message.getModule();
-        this.content = message.getContent();
-        this.createOn = message.getCreateOn();
-        this.acceptOn = Instant.now();
-    }
 
 }

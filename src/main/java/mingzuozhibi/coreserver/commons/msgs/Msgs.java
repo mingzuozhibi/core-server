@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.commons.logger;
+package mingzuozhibi.coreserver.commons.msgs;
 
 import com.google.gson.Gson;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.time.Instant;
 
 @Slf4j
 @Component
-public class JmsLogger {
+public class Msgs {
 
     private static final Gson GSON = GsonUtils.INSTANCE;
 
@@ -25,43 +25,43 @@ public class JmsLogger {
 
     private void sendMsg(Type type, String content) {
         Message message = new Message(type, module, content);
-        template.convertAndSend("jms.logger", GSON.toJson(message));
+        template.convertAndSend("jms.msgs", GSON.toJson(message));
     }
 
     public void debug(String format, Object... args) {
         String content = String.format(format, args);
         sendMsg(Type.DEBUG, content);
-        log.debug("jms.logger => " + content);
+        log.debug("jms.msgs => " + content);
     }
 
     public void info(String format, Object... args) {
         String content = String.format(format, args);
         sendMsg(Type.INFO, content);
-        log.info("jms.logger => " + content);
+        log.info("jms.msgs => " + content);
     }
 
     public void notify(String format, Object... args) {
         String content = String.format(format, args);
         sendMsg(Type.NOTIFY, content);
-        log.info("jms.logger => " + content);
+        log.info("jms.msgs => " + content);
     }
 
     public void success(String format, Object... args) {
         String content = String.format(format, args);
         sendMsg(Type.SUCCESS, content);
-        log.info("jms.logger => " + content);
+        log.info("jms.msgs => " + content);
     }
 
     public void warn(String format, Object... args) {
         String content = String.format(format, args);
         sendMsg(Type.WARN, content);
-        log.warn("jms.logger => " + content);
+        log.warn("jms.msgs => " + content);
     }
 
     public void error(String format, Object... args) {
         String content = String.format(format, args);
         sendMsg(Type.ERROR, content);
-        log.error("jms.logger => " + content);
+        log.error("jms.msgs => " + content);
     }
 
     public enum Type {
