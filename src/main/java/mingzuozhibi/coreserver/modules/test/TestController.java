@@ -21,9 +21,15 @@ public class TestController extends BaseController {
         private String message;
     }
 
-    @PostMapping("/api/hello")
-    public String hello(@RequestBody MessageForm form) {
-        jmsMessage.doLog(JmsMessageType.valueOf(form.type), form.message);
+    @PostMapping("/api/test/sendMsg")
+    public String sendMsg(@RequestBody MessageForm form) {
+        jmsMessage.sendMsg(JmsMessageType.valueOf(form.type), form.message);
+        return objectResult(true);
+    }
+
+    @PostMapping("/api/test/info")
+    public String info(@RequestBody MessageForm form) {
+        jmsMessage.info(form.message);
         return objectResult(true);
     }
 

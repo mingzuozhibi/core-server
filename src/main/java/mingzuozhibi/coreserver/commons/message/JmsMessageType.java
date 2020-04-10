@@ -1,5 +1,5 @@
 package mingzuozhibi.coreserver.commons.message;
 
 public enum JmsMessageType {
-    DEBUG, INFO, SUCCESS, WARNING, ERROR
+    DEBUG, INFO, NOTIFY, SUCCESS, WARN, ERROR
 }
