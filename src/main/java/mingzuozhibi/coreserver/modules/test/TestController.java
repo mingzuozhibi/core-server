@@ -26,4 +26,10 @@ public class TestController extends BaseController {
         return objectResult(true);
     }
 
+    @PostMapping("/api/test/debug")
+    public String debug(@RequestBody MessageForm form) {
+        msgs.debug(form.message);
+        return objectResult(true);
+    }
+
 }
