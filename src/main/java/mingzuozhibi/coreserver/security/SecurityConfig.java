@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.commons.security;
+package mingzuozhibi.coreserver.security;
 
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.commons.security;
+package mingzuozhibi.coreserver.security;
 
 import lombok.extern.slf4j.Slf4j;
 import mingzuozhibi.coreserver.modules.auth.token.TokenRepository;
