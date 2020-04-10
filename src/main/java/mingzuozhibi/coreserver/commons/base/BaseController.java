@@ -10,11 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
 import java.util.Objects;
 
 public class BaseController {
 
-    protected Gson gson = GsonUtils.createGson();
+    protected Gson GSON = GsonUtils.INSTANCE;
 
     @ResponseBody
     @ExceptionHandler
@@ -47,7 +48,7 @@ public class BaseController {
 
     public String objectResult(Object data) {
         Objects.requireNonNull(data);
-        return objectResult(gson.toJsonTree(data));
+        return objectResult(GSON.toJsonTree(data));
     }
 
     public String objectResult(JsonElement data) {
@@ -58,10 +59,17 @@ public class BaseController {
         return root.toString();
     }
 
+    public String objectResult(Page<?> page) {
+        Objects.requireNonNull(page);
+        List<?> data = page.getContent();
+        Objects.requireNonNull(data);
+        return objectResult(GSON.toJsonTree(data), buildPage(page));
+    }
+
     public String objectResult(Object data, Page<?> page) {
         Objects.requireNonNull(data);
         Objects.requireNonNull(page);
-        return objectResult(gson.toJsonTree(data), buildPage(page));
+        return objectResult(GSON.toJsonTree(data), buildPage(page));
     }
 
     public String objectResult(JsonElement data, JsonElement page) {
