@@ -2,8 +2,7 @@ package mingzuozhibi.coreserver.modules.test;
 
 import lombok.Data;
 import mingzuozhibi.coreserver.commons.base.BaseController;
-import mingzuozhibi.coreserver.commons.message.JmsMessage;
-import mingzuozhibi.coreserver.commons.message.JmsMessageType;
+import mingzuozhibi.coreserver.commons.logger.JmsLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController extends BaseController {
 
     @Autowired
-    private JmsMessage jmsMessage;
+    private JmsLogger jmsLogger;
 
     @Data
     private static class MessageForm {
@@ -21,15 +20,9 @@ public class TestController extends BaseController {
         private String message;
     }
 
-    @PostMapping("/api/test/sendMsg")
-    public String sendMsg(@RequestBody MessageForm form) {
-        jmsMessage.sendMsg(JmsMessageType.valueOf(form.type), form.message);
-        return objectResult(true);
-    }
-
     @PostMapping("/api/test/info")
     public String info(@RequestBody MessageForm form) {
-        jmsMessage.info(form.message);
+        jmsLogger.info(form.message);
         return objectResult(true);
     }
 
