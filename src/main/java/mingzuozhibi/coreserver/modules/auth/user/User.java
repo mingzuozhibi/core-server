@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mingzuozhibi.coreserver.commons.base.BaseModel;
-import mingzuozhibi.coreserver.commons.gson.Ignore;
+import mingzuozhibi.coreserver.commons.gson.GsonIgnore;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -23,7 +23,7 @@ public class User extends BaseModel {
     @Column(length = 32, nullable = false, unique = true)
     private String username;
 
-    @Ignore
+    @GsonIgnore
     @Column(length = 32, nullable = false)
     private String password;
 

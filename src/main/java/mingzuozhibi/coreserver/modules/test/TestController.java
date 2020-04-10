@@ -1,21 +1,29 @@
 package mingzuozhibi.coreserver.modules.test;
 
+import lombok.Data;
 import mingzuozhibi.coreserver.commons.base.BaseController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import mingzuozhibi.coreserver.commons.logger.JmsLogger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Objects;
 
 @RestController
 public class TestController extends BaseController {
 
-    @GetMapping("/api/hello")
-    public String hello(@RequestParam String name) {
-        if (Objects.equals(name, "jack")) {
-            return errorMessage("Can't access");
-        }
-        return objectResult("hello " + name);
+    @Autowired
+    private JmsLogger jmsLogger;
+
+    @Data
+    private static class MessageForm {
+        private String type;
+        private String message;
+    }
+
+    @PostMapping("/api/test/info")
+    public String info(@RequestBody MessageForm form) {
+        jmsLogger.info(form.message);
+        return objectResult(true);
     }
 
 }

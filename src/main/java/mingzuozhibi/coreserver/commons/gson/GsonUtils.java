@@ -8,14 +8,16 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.time.Instant;
 
-public abstract class GsonFactory {
+public abstract class GsonUtils {
+
+    public static final Gson INSTANCE = createGson();
 
     public static Gson createGson() {
         GsonBuilder gson = new GsonBuilder();
         gson.setExclusionStrategies(new ExclusionStrategy() {
             @Override
             public boolean shouldSkipField(FieldAttributes f) {
-                return f.getAnnotation(Ignore.class) != null;
+                return f.getAnnotation(GsonIgnore.class) != null;
             }
 
             @Override
