@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import mingzuozhibi.coreserver.commons.gson.GsonFactory;
+import mingzuozhibi.coreserver.commons.gson.GsonUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class BaseController {
 
-    protected Gson gson = GsonFactory.createGson();
+    protected Gson gson = GsonUtils.createGson();
 
     @ResponseBody
     @ExceptionHandler
