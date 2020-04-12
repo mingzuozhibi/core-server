@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.modules.test;
+package mingzuozhibi.coreserver.test;
 
 import lombok.Data;
 import mingzuozhibi.coreserver.commons.base.BaseController;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class TestController extends BaseController {
+public class TestMsgsController extends BaseController {
 
     @Autowired
     private Msgs msgs;
@@ -20,16 +20,14 @@ public class TestController extends BaseController {
         private String message;
     }
 
-    @PostMapping("/api/test/info")
-    public String info(@RequestBody MessageForm form) {
+    @PostMapping("/test/info")
+    public void info(@RequestBody MessageForm form) {
         msgs.info(form.message);
-        return objectResult(true);
     }
 
-    @PostMapping("/api/test/debug")
-    public String debug(@RequestBody MessageForm form) {
+    @PostMapping("/test/debug")
+    public void debug(@RequestBody MessageForm form) {
         msgs.debug(form.message);
-        return objectResult(true);
     }
 
 }

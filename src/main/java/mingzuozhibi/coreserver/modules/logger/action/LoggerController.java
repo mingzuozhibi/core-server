@@ -17,7 +17,7 @@ public class LoggerController extends BaseController {
     @Autowired
     private LoggerRepository loggerRepository;
 
-    @GetMapping("/api/logger/{module}")
+    @GetMapping("/api/loggers/{module}")
     public String findByModule(@PathVariable String module,
                                @RequestParam(required = false) Set<String> levels,
                                @RequestParam(defaultValue = "1") int page,
