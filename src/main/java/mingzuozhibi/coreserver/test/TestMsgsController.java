@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.modules.test;
+package mingzuozhibi.coreserver.test;
 
 import lombok.Data;
 import mingzuozhibi.coreserver.commons.base.BaseController;
