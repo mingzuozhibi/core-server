@@ -16,7 +16,6 @@ public class TestMsgsController extends BaseController {
 
     @Data
     private static class MessageForm {
-        private String type;
         private String message;
     }
 
