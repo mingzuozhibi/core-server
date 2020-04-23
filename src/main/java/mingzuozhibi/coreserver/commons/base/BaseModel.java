@@ -6,13 +6,12 @@ import lombok.Setter;
 import mingzuozhibi.coreserver.commons.gson.GsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @MappedSuperclass
-public abstract class BaseModel implements Serializable {
+public abstract class BaseModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

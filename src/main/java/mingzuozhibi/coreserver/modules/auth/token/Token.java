@@ -9,6 +9,8 @@ import mingzuozhibi.coreserver.modules.auth.user.User;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -16,7 +18,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Token extends BaseModel {
+public class Token extends BaseModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
