@@ -14,21 +14,21 @@ public class ResetContext {
     private Set<Long> users = Collections.synchronizedSet(new HashSet<>());
     private Set<Long> tokens = Collections.synchronizedSet(new HashSet<>());
 
-    public void resetUser(Long userId) {
+    public void resetUserId(Long userId) {
         users.add(userId);
         log.debug("resetUser(userId={})", userId);
     }
 
-    public void resetToken(Long tokenId) {
+    public void resetTokenId(Long tokenId) {
         tokens.add(tokenId);
         log.debug("resetToken(tokenId={})", tokenId);
     }
 
-    public boolean checkUser(Long userId) {
+    public boolean hasUserId(Long userId) {
         return users.remove(userId);
     }
 
-    public boolean checkToken(Long tokenId) {
+    public boolean hasTokenId(Long tokenId) {
         return tokens.remove(tokenId);
     }
 

@@ -9,12 +9,11 @@ import mingzuozhibi.coreserver.modules.auth.user.User;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
 
-@Entity(name = "auth_token")
+@Entity(name = "token")
 @Getter
 @Setter
 @NoArgsConstructor

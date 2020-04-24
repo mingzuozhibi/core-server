@@ -1,9 +1,9 @@
 package mingzuozhibi.coreserver.security;
 
 import lombok.extern.slf4j.Slf4j;
+import mingzuozhibi.coreserver.modules.auth.user.User;
 import mingzuozhibi.coreserver.modules.auth.token.Token;
 import mingzuozhibi.coreserver.modules.auth.token.TokenRepository;
-import mingzuozhibi.coreserver.modules.auth.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,12 +42,12 @@ public class SecurityFilter implements Filter {
             return true;
         }
         Token token = ((TokenAuthentication) context.getAuthentication()).getToken();
-        if (resetContext.checkToken(token.getId())) {
+        if (resetContext.hasTokenId(token.getId())) {
             log.debug("发现应重置Token: tokenId={}", token.getId());
             return true;
         }
         User user = token.getUser();
-        if (resetContext.checkUser(user.getId())) {
+        if (resetContext.hasUserId(user.getId())) {
             log.debug("发现应重置Token: userId={}", user.getId());
             return true;
         }
