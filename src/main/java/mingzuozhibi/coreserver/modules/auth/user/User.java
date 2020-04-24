@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User extends BaseModel implements Serializable {
+public class User extends BaseModel {
 
     private static final long serialVersionUID = 1L;
 

@@ -9,15 +9,15 @@ import mingzuozhibi.coreserver.modules.auth.user.User;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.io.Serializable;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity(name = "token")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Token extends BaseModel implements Serializable {
+public class Token extends BaseModel {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,6 +38,19 @@ public class Token extends BaseModel implements Serializable {
 
     public boolean tokenExpired() {
         return Instant.now().isAfter(expireOn);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Token token = (Token) o;
+        return uuid.equals(token.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid);
     }
 
 }

@@ -12,4 +12,8 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
 
     List<Token> findByExpireOnBefore(Instant instant);
 
+    default List<Token> findByExpired() {
+        return findByExpireOnBefore(Instant.now());
+    }
+
 }
