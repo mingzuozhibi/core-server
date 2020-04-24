@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.modules.logger.domain;
+package mingzuozhibi.coreserver.modules.logs.log;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,11 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.time.Instant;
 
-@Entity(name = "logger")
+@Entity(name = "log")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Logger extends BaseModel {
+public class Log extends BaseModel {
 
     @Column(nullable = false, length = 10)
     private String level;

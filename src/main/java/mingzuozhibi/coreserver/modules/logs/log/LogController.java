@@ -1,7 +1,6 @@
-package mingzuozhibi.coreserver.modules.logger.action;
+package mingzuozhibi.coreserver.modules.logs.log;
 
 import mingzuozhibi.coreserver.commons.base.BaseController;
-import mingzuozhibi.coreserver.modules.logger.domain.LoggerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,21 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Set;
 
 @RestController
-public class LoggerController extends BaseController {
+public class LogController extends BaseController {
 
     @Autowired
-    private LoggerRepository loggerRepository;
+    private LogRepository logRepository;
 
-    @GetMapping("/api/loggers/{module}")
+    @GetMapping("/api/logs/{module}")
     public String findByModule(@PathVariable String module,
                                @RequestParam(required = false) Set<String> levels,
                                @RequestParam(defaultValue = "1") int page,
                                @RequestParam(defaultValue = "50") int pageSize) {
         PageRequest pageable = PageRequest.of(page - 1, pageSize);
         if (levels == null || levels.isEmpty()) {
-            return objectResult(loggerRepository.findByModule(module, pageable));
+            return objectResult(logRepository.findByModule(module, pageable));
         } else {
-            return objectResult(loggerRepository.findByModuleAndLevelIn(module, levels, pageable));
+            return objectResult(logRepository.findByModuleAndLevelIn(module, levels, pageable));
         }
     }
 
