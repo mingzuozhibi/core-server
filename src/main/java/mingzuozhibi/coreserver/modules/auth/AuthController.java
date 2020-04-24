@@ -1,19 +1,20 @@
-package mingzuozhibi.coreserver.modules.auth.action;
+package mingzuozhibi.coreserver.modules.auth;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import mingzuozhibi.coreserver.commons.base.BaseController;
-import mingzuozhibi.coreserver.modules.auth.token.Token;
-import mingzuozhibi.coreserver.modules.auth.token.TokenRepository;
 import mingzuozhibi.coreserver.modules.auth.user.User;
 import mingzuozhibi.coreserver.modules.auth.user.UserRepository;
+import mingzuozhibi.coreserver.modules.auth.token.Token;
+import mingzuozhibi.coreserver.modules.auth.token.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -116,17 +117,6 @@ public class AuthController extends BaseController {
         // Drop Token
         tokenRepository.delete(token);
         return objectResult(token);
-    }
-
-    @Transactional
-    @GetMapping("/test/checkToken")
-    @Scheduled(cron = "0 0/5 * * * ?")
-    public void checkToken() {
-        List<Token> tokens = tokenRepository.findByExpireOnBefore(Instant.now());
-        if (tokens.size() > 0) {
-            log.info("删除过期Token({}/{})", tokens.size(), tokenRepository.count());
-        }
-        tokenRepository.deleteAll(tokens);
     }
 
     private Token createToken(User user) {

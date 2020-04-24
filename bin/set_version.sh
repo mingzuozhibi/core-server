@@ -8,8 +8,8 @@ cd ${basepath}
 git flow release start "v$1"
 
 # 更新 pom.xml 版本号
-mvn versions:set -DnewVersion=$1
-mvn versions:commit
+./mvnw versions:set -DnewVersion=$1
+./mvnw versions:commit
 
 # 提交 pom.xml 版本号
 git add .

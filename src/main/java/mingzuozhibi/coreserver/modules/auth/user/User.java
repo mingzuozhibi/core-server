@@ -7,16 +7,17 @@ import mingzuozhibi.coreserver.commons.base.BaseModel;
 import mingzuozhibi.coreserver.commons.gson.GsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity(name = "auth_user")
+@Entity(name = "user")
 @Getter
 @Setter
 @NoArgsConstructor
-public class User extends BaseModel {
+public class User extends BaseModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,7 +46,7 @@ public class User extends BaseModel {
      */
 
     @ElementCollection
-    @CollectionTable(name = "auth_user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     private Set<String> roles = new HashSet<>();
 
     public User(String username, String password, boolean enabled) {
@@ -58,8 +59,10 @@ public class User extends BaseModel {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         User user = (User) o;
         return Objects.equals(username, user.username);
     }
