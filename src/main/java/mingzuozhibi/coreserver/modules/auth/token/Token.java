@@ -17,7 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Token extends BaseModel implements Serializable {
+public class Token extends BaseModel {
 
     private static final long serialVersionUID = 1L;
 
