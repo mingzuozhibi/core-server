@@ -26,13 +26,13 @@ CallPushAll() {
   git push origin v$1
 }
 
-if [ $2 -eq "-a" ]; then
+if [[ $2 == "-a" ]]; then
   CallRelease
   CallPushAll
   exit 0
 fi
 
-if [ $2 -eq "-f" ]; then
+if [[ $2 == "-f" ]]; then
   CallPushAll
 else
   CallRelease
