@@ -1,8 +1,8 @@
-package mingzuozhibi.coreserver.commons.time;
+package mingzuozhibi.coreserver.commons.util;
 
 import java.time.format.DateTimeFormatter;
 
-public abstract class Formatter {
+public abstract class Formatters {
 
     public static final DateTimeFormatter ISO_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss");
     public static final DateTimeFormatter ISO_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");

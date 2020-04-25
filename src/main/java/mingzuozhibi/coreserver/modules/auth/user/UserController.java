@@ -2,20 +2,27 @@ package mingzuozhibi.coreserver.modules.auth.user;
 
 import lombok.Data;
 import mingzuozhibi.coreserver.commons.base.BaseController;
+import mingzuozhibi.coreserver.commons.msgs.Msgs;
+import mingzuozhibi.coreserver.commons.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.Objects;
+
+import static mingzuozhibi.coreserver.commons.util.SecurityUtils.getCurrentUsername;
+import static mingzuozhibi.coreserver.modules.auth.user.User.ALL_ROLES;
 
 @RestController
 public class UserController extends BaseController {
+
+    @Autowired
+    private Msgs msgs;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
@@ -27,57 +34,87 @@ public class UserController extends BaseController {
                           @RequestParam(defaultValue = "20") int pageSize) {
         // Find User Of Page
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
-        Page<User> userPage = userRepository.findAll(pageRequest);
-        List<User> userList = userPage.getContent();
-        return objectResult(userList, userPage);
+        return objectResult(userRepository.findAll(pageRequest));
     }
 
     @Transactional
     @GetMapping("/api/users/{id}")
     @PreAuthorize("hasRole('UserAdmin')")
     public String findById(@PathVariable Long id) {
-        // Find User By Id
-        Optional<User> userOpt = userRepository.findById(id);
-        if (userOpt.isEmpty()) {
-            return errorMessage("用户Id不存在");
-        }
-        User user = userOpt.get();
-        return objectResult(user);
+        return userService.findById(id, this::objectResult);
     }
 
     @Transactional
     @GetMapping("/api/users/find/username/{username}")
     @PreAuthorize("hasRole('UserAdmin')")
     public String findByUsername(@PathVariable String username) {
-        // Find User By Username
-        Optional<User> userOpt = userRepository.findByUsername(username);
-        if (userOpt.isEmpty()) {
-            return errorMessage("用户名不存在");
-        }
-        User user = userOpt.get();
-        return objectResult(user);
+        return userService.findByUsername(username, this::objectResult);
     }
 
     @Data
     private static class SetForm {
         private boolean enabled;
-        private Set<String> roles = new HashSet<>();
     }
 
     @Transactional
     @PutMapping("/api/users/{id}")
     @PreAuthorize("hasRole('UserAdmin')")
     public String setOne(@PathVariable Long id, @RequestBody SetForm form) {
-        // Find User By Id
-        Optional<User> userOpt = userRepository.findById(id);
-        if (userOpt.isEmpty()) {
-            return errorMessage("用户Id不存在");
-        }
-        User user = userOpt.get();
-        // Edit User
-        user.setRoles(form.roles);
-        user.setEnabled(form.enabled);
-        return objectResult(user);
+        return userService.findById(id, user -> {
+            user.getRoles().forEach(this::checkSecurityOfRole);
+            if (user.isEnabled() != form.enabled) {
+                user.setEnabled(form.enabled);
+                msgs.info("用户{}设置{}的启用状态为{}", getCurrentUsername(), user, form.enabled);
+            }
+            return objectResult(user);
+        });
+    }
+
+    @Data
+    private static class RoleForm {
+        private String role;
+    }
+
+    @Transactional
+    @PostMapping("/api/users/{id}/roles")
+    @PreAuthorize("hasRole('UserAdmin')")
+    public String pushRole(@PathVariable Long id, @RequestBody RoleForm form) {
+        return userService.findById(id, user -> {
+            checkSecurityOfRole(form.role);
+            if (user.getRoles().add(form.role)) {
+                msgs.info("用户{}给{}添加了权限{}", getCurrentUsername(), user, form.role);
+            }
+            return objectResult(user);
+        });
+    }
+
+    @Transactional
+    @DeleteMapping("/api/users/{id}/roles")
+    @PreAuthorize("hasRole('UserAdmin')")
+    public String dropRole(@PathVariable Long id, @RequestBody RoleForm form) {
+        return userService.findById(id, user -> {
+            checkSecurityOfRole(form.role);
+            if (user.getRoles().remove(form.role)) {
+                msgs.info("用户{}从{}移除了权限{}", getCurrentUsername(), user, form.role);
+            }
+            return objectResult(user);
+        });
+    }
+
+    private void checkSecurityOfRole(String role) {
+        Objects.requireNonNull(role);
+        SecurityUtils.doSecurityCheck(roles -> {
+            if (role.equals("RootAdmin")) {
+                return false;
+            }
+            if (role.equals("UserAdmin") && !roles.contains("RootAdmin")) {
+                return false;
+            }
+            if (!ALL_ROLES.contains(role)) {
+                return false;
+            }
+            return true;
+        });
     }
 
 }
