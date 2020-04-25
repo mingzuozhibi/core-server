@@ -64,7 +64,7 @@ public class UserController extends BaseController {
             user.getRoles().forEach(this::checkSecurityOfRole);
             if (user.isEnabled() != form.enabled) {
                 user.setEnabled(form.enabled);
-                msgs.info("用户{}设置{}的启用状态为{}", getCurrentUsername(), user, form.enabled);
+                msgs.info("用户%s设置%s的启用状态为%b", getCurrentUsername(), user.getUsername(), form.enabled);
             }
             return objectResult(user);
         });
@@ -82,7 +82,7 @@ public class UserController extends BaseController {
         return userService.findById(id, user -> {
             checkSecurityOfRole(form.role);
             if (user.getRoles().add(form.role)) {
-                msgs.info("用户{}给{}添加了权限{}", getCurrentUsername(), user, form.role);
+                msgs.info("用户%s给%s添加了权限%s", getCurrentUsername(), user.getUsername(), form.role);
             }
             return objectResult(user);
         });
@@ -95,7 +95,7 @@ public class UserController extends BaseController {
         return userService.findById(id, user -> {
             checkSecurityOfRole(form.role);
             if (user.getRoles().remove(form.role)) {
-                msgs.info("用户{}从{}移除了权限{}", getCurrentUsername(), user, form.role);
+                msgs.info("用户%s从%s移除了权限%s", getCurrentUsername(), user.getUsername(), form.role);
             }
             return objectResult(user);
         });
