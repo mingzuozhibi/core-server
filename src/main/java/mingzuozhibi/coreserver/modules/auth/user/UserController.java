@@ -57,9 +57,9 @@ public class UserController extends BaseController {
     }
 
     @Transactional
-    @PutMapping("/api/users/{id}")
+    @PutMapping("/api/users/{id}/enabled")
     @PreAuthorize("hasRole('UserAdmin')")
-    public String setOne(@PathVariable Long id, @RequestBody SetForm form) {
+    public String setEnabled(@PathVariable Long id, @RequestBody SetForm form) {
         return userService.findById(id, user -> {
             user.getRoles().forEach(this::checkSecurityOfRole);
             if (user.isEnabled() != form.enabled) {
