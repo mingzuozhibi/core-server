@@ -30,10 +30,14 @@ public class Token extends BaseModel {
     @Column(nullable = false)
     private Instant expireOn;
 
+    @Column(nullable = false)
+    private Instant lastAccess;
+
     public Token(User user) {
         this.user = user;
         this.uuid = UUID.randomUUID().toString();
         this.expireOn = Instant.now().plusSeconds(14 * 86400);
+        this.lastAccess = Instant.now();
     }
 
     public boolean tokenExpired() {

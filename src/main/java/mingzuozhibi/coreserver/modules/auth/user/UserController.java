@@ -4,6 +4,7 @@ import lombok.Data;
 import mingzuozhibi.coreserver.commons.base.BaseController;
 import mingzuozhibi.coreserver.commons.msgs.Msgs;
 import mingzuozhibi.coreserver.commons.util.SecurityUtils;
+import mingzuozhibi.coreserver.security.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
+import java.util.Set;
 
 import static mingzuozhibi.coreserver.commons.util.SecurityUtils.getCurrentUsername;
 import static mingzuozhibi.coreserver.modules.auth.user.User.ALL_ROLES;
@@ -22,7 +24,7 @@ public class UserController extends BaseController {
     private Msgs msgs;
 
     @Autowired
-    private UserService userService;
+    private SessionManager sessionManager;
 
     @Autowired
     private UserRepository userRepository;
@@ -32,7 +34,6 @@ public class UserController extends BaseController {
     @PreAuthorize("hasRole('UserAdmin')")
     public String findAll(@RequestParam(defaultValue = "1") int page,
                           @RequestParam(defaultValue = "20") int pageSize) {
-        // Find User Of Page
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
         return objectResult(userRepository.findAll(pageRequest));
     }
@@ -41,48 +42,48 @@ public class UserController extends BaseController {
     @GetMapping("/api/users/{id}")
     @PreAuthorize("hasRole('UserAdmin')")
     public String findById(@PathVariable Long id) {
-        return userService.findById(id, this::objectResult);
+        return userRepository.findById(id, this::objectResult);
     }
 
     @Transactional
     @GetMapping("/api/users/find/username/{username}")
     @PreAuthorize("hasRole('UserAdmin')")
     public String findByUsername(@PathVariable String username) {
-        return userService.findByUsername(username, this::objectResult);
+        return userRepository.findByUsername(username, this::objectResult);
     }
 
     @Data
-    private static class SetForm {
+    private static class EditForm {
         private boolean enabled;
+        private String changedRole;
     }
 
     @Transactional
     @PutMapping("/api/users/{id}/enabled")
     @PreAuthorize("hasRole('UserAdmin')")
-    public String setEnabled(@PathVariable Long id, @RequestBody SetForm form) {
-        return userService.findById(id, user -> {
-            user.getRoles().forEach(this::checkSecurityOfRole);
+    public String setEnabled(@PathVariable Long id, @RequestBody EditForm form) {
+        return userRepository.findById(id, user -> {
+            user.getRoles().stream()
+                .filter(Set.of("RootAdmin", "UserAdmin")::contains)
+                .forEach(this::checkSecurityOfRole);
             if (user.isEnabled() != form.enabled) {
                 user.setEnabled(form.enabled);
+                sessionManager.deleteSession(user);
                 msgs.info("用户%s设置%s的启用状态为%b", getCurrentUsername(), user.getUsername(), form.enabled);
             }
             return objectResult(user);
         });
     }
 
-    @Data
-    private static class RoleForm {
-        private String role;
-    }
-
     @Transactional
     @PostMapping("/api/users/{id}/roles")
     @PreAuthorize("hasRole('UserAdmin')")
-    public String pushRole(@PathVariable Long id, @RequestBody RoleForm form) {
-        return userService.findById(id, user -> {
-            checkSecurityOfRole(form.role);
-            if (user.getRoles().add(form.role)) {
-                msgs.info("用户%s给%s添加了权限%s", getCurrentUsername(), user.getUsername(), form.role);
+    public String pushRole(@PathVariable Long id, @RequestBody EditForm form) {
+        return userRepository.findById(id, user -> {
+            checkSecurityOfRole(form.changedRole);
+            if (user.getRoles().add(form.changedRole)) {
+                sessionManager.deleteSession(user);
+                msgs.info("用户%s给%s添加了权限%s", getCurrentUsername(), user.getUsername(), form.changedRole);
             }
             return objectResult(user);
         });
@@ -91,11 +92,12 @@ public class UserController extends BaseController {
     @Transactional
     @DeleteMapping("/api/users/{id}/roles")
     @PreAuthorize("hasRole('UserAdmin')")
-    public String dropRole(@PathVariable Long id, @RequestBody RoleForm form) {
-        return userService.findById(id, user -> {
-            checkSecurityOfRole(form.role);
-            if (user.getRoles().remove(form.role)) {
-                msgs.info("用户%s从%s移除了权限%s", getCurrentUsername(), user.getUsername(), form.role);
+    public String dropRole(@PathVariable Long id, @RequestBody EditForm form) {
+        return userRepository.findById(id, user -> {
+            checkSecurityOfRole(form.changedRole);
+            if (user.getRoles().remove(form.changedRole)) {
+                sessionManager.deleteSession(user);
+                msgs.info("用户%s从%s移除了权限%s", getCurrentUsername(), user.getUsername(), form.changedRole);
             }
             return objectResult(user);
         });

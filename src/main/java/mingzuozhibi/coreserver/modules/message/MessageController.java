@@ -32,9 +32,9 @@ public class MessageController extends BaseController {
         }
     }
 
-    @JmsListener(destination = "jms.msgs")
     @Transactional
-    public void listenJmsMsgs(String json) {
+    @JmsListener(destination = "module.message")
+    public void moduleMessageListener(String json) {
         Message message = GSON.fromJson(json, Message.class);
         message.setAcceptOn(Instant.now());
         messageRepository.save(message);
