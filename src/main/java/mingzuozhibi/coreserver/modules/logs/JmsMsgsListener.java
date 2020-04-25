@@ -7,6 +7,7 @@ import mingzuozhibi.coreserver.modules.logs.log.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 
@@ -19,6 +20,7 @@ public class JmsMsgsListener {
     private LogRepository logRepository;
 
     @JmsListener(destination = "jms.msgs")
+    @Transactional
     public void listenJmsMsgs(String json) {
         Log log = GSON.fromJson(json, Log.class);
         log.setAcceptOn(Instant.now());

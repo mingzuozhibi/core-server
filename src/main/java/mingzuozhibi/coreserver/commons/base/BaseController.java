@@ -51,14 +51,6 @@ public class BaseController {
         return objectResult(GSON.toJsonTree(data));
     }
 
-    public String objectResult(JsonElement data) {
-        Objects.requireNonNull(data);
-        JsonObject root = new JsonObject();
-        root.addProperty("success", true);
-        root.add("data", data);
-        return root.toString();
-    }
-
     public String objectResult(Page<?> page) {
         Objects.requireNonNull(page);
         List<?> data = page.getContent();
@@ -66,10 +58,12 @@ public class BaseController {
         return objectResult(GSON.toJsonTree(data), buildPage(page));
     }
 
-    public String objectResult(Object data, Page<?> page) {
+    public String objectResult(JsonElement data) {
         Objects.requireNonNull(data);
-        Objects.requireNonNull(page);
-        return objectResult(GSON.toJsonTree(data), buildPage(page));
+        JsonObject root = new JsonObject();
+        root.addProperty("success", true);
+        root.add("data", data);
+        return root.toString();
     }
 
     public String objectResult(JsonElement data, JsonElement page) {

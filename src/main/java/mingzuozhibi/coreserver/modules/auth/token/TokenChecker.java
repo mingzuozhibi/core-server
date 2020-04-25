@@ -25,7 +25,7 @@ public class TokenChecker {
         List<Token> tokens = tokenRepository.findByExpired();
         if (tokens.size() > 0) {
             tokens.forEach(sessionManager::deleteSession);
-            log.info("删除过期Token({}/{})", tokens.size(), tokens.size() + tokenRepository.count());
+            log.info("删除过期Token({}/{})", tokens.size(), tokenRepository.count());
         }
         tokenRepository.deleteAll(tokens);
     }

@@ -7,7 +7,6 @@ import mingzuozhibi.coreserver.commons.base.BaseModel;
 import mingzuozhibi.coreserver.commons.gson.GsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
@@ -45,7 +44,9 @@ public class User extends BaseModel {
      * RootAdmin <br>
      */
 
-    @ElementCollection
+    public static final Set<String> ALL_ROLES = Set.of("Guest", "Login", "DiscAdmin", "UserAdmin", "RootAdmin");
+
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     private Set<String> roles = new HashSet<>();
 
