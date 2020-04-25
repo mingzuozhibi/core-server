@@ -7,7 +7,6 @@ import mingzuozhibi.coreserver.commons.base.BaseModel;
 import mingzuozhibi.coreserver.commons.gson.GsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
