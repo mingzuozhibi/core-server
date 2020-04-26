@@ -13,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,11 +30,6 @@ public class UserController extends BaseController {
 
     @MsgsWired(Index.User)
     private Msgs msgs;
-
-    @PostConstruct
-    public void initLog() {
-        this.msgs = msgsHelper.with(Index.User);
-    }
 
     @Transactional
     @GetMapping("/api/users")
