@@ -22,12 +22,12 @@ public class TestMsgsController extends BaseController {
 
     @PostMapping("/test/info")
     public void info(@RequestBody MessageForm form) {
-        msgsHelper.info(Index.Test, form.message);
+        msgs.info(form.message);
     }
 
     @PostMapping("/test/debug")
     public void debug(@RequestBody MessageForm form) {
-        msgsHelper.debug(Index.Test, form.message);
+        msgs.debug(form.message);
     }
 
 }

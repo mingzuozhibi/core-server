@@ -17,7 +17,7 @@ public class MsgsPostProcessor implements BeanPostProcessor {
     private MsgsHelper msgsHelper;
 
     @SneakyThrows
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         Class<?> beanClass = bean.getClass();
         for (Field field : beanClass.getDeclaredFields()) {
             MsgsWired annotation = field.getAnnotation(MsgsWired.class);

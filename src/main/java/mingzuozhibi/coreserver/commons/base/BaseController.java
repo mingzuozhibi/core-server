@@ -9,6 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class BaseController {
 
     protected Gson GSON = GsonHelper.GSON;
@@ -19,7 +22,13 @@ public class BaseController {
     @ResponseBody
     @ExceptionHandler
     public String errorHandler(Exception e) {
-        return errorMessage(e.getMessage());
+        List<String> errors = new LinkedList<>();
+        Throwable t = e;
+        while (t != null) {
+            errors.add(t.getClass().getSimpleName() + ": " + e.getMessage());
+            t = t.getCause();
+        }
+        return errorMessage(String.join(", ", errors));
     }
 
     protected String errorMessage(String error) {
