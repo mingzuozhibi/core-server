@@ -10,12 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Slf4j
-@WebFilter("/api/*")
 @Component
 public class SecurityFilter implements Filter {
 
@@ -34,7 +32,7 @@ public class SecurityFilter implements Filter {
 
     private void trySetContext(HttpServletRequest request, SecurityContext context) {
         String uuid = request.getHeader("x-token");
-        if (Strings.isNullOrEmpty(uuid)) {
+        if (!Strings.isNullOrEmpty(uuid)) {
             tokenRepository.findByUuid(uuid).ifPresent(token -> {
                 context.setAuthentication(new TokenAuthentication(token));
             });
