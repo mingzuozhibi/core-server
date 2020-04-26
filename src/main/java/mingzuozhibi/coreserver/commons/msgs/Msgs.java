@@ -1,88 +1,45 @@
 package mingzuozhibi.coreserver.commons.msgs;
 
-import com.google.gson.Gson;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import mingzuozhibi.coreserver.commons.gson.GsonUtils;
+import mingzuozhibi.coreserver.commons.msgs.support.MsgsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jms.core.JmsTemplate;
-import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-
-@Slf4j
-@Component
 public class Msgs {
 
-    private static final Gson GSON = GsonUtils.INSTANCE;
-
-    @Value("${spring.application.name}")
-    private String module;
+    private MsgsHelper msgsHelper;
+    private Index index;
 
     @Autowired
-    private JmsTemplate template;
+    public Msgs(MsgsHelper msgsHelper, Index index) {
+        this.msgsHelper = msgsHelper;
+        this.index = index;
+    }
 
-    private void sendMsg(Type type, String content) {
-        Message message = new Message(type, module, content);
-        template.convertAndSend("jms.msgs", GSON.toJson(message));
+    public Msgs with(Index index) {
+        return new Msgs(msgsHelper, index);
     }
 
     public void debug(String format, Object... args) {
-        String content = String.format(format, args);
-        sendMsg(Type.DEBUG, content);
-        log.debug("jms.msgs => " + content);
+        msgsHelper.debug(index, format, args);
     }
 
     public void info(String format, Object... args) {
-        String content = String.format(format, args);
-        sendMsg(Type.INFO, content);
-        log.info("jms.msgs => " + content);
+        msgsHelper.info(index, format, args);
     }
 
     public void notify(String format, Object... args) {
-        String content = String.format(format, args);
-        sendMsg(Type.NOTIFY, content);
-        log.info("jms.msgs => " + content);
+        msgsHelper.notify(index, format, args);
     }
 
     public void success(String format, Object... args) {
-        String content = String.format(format, args);
-        sendMsg(Type.SUCCESS, content);
-        log.info("jms.msgs => " + content);
+        msgsHelper.success(index, format, args);
     }
 
     public void warn(String format, Object... args) {
-        String content = String.format(format, args);
-        sendMsg(Type.WARN, content);
-        log.warn("jms.msgs => " + content);
+        msgsHelper.warn(index, format, args);
     }
 
     public void error(String format, Object... args) {
-        String content = String.format(format, args);
-        sendMsg(Type.ERROR, content);
-        log.error("jms.msgs => " + content);
-    }
-
-    public enum Type {
-        DEBUG, INFO, NOTIFY, SUCCESS, WARN, ERROR
-    }
-
-    @Data
-    public static class Message {
-
-        private Type level;
-        private String module;
-        private String content;
-        private Instant createOn;
-
-        public Message(Type level, String module, String content) {
-            this.level = level;
-            this.module = module;
-            this.content = content;
-            this.createOn = Instant.now();
-        }
-
+        msgsHelper.error(index, format, args);
     }
 
 }

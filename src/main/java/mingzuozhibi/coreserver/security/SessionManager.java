@@ -5,6 +5,7 @@ import mingzuozhibi.coreserver.modules.auth.token.Token;
 import mingzuozhibi.coreserver.modules.auth.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.Session;
@@ -37,6 +38,10 @@ public class SessionManager {
                 }
             }
         });
+    }
+
+    public void updateSession(Token token) {
+        SecurityContextHolder.getContext().setAuthentication(new TokenAuthentication(token));
     }
 
 }

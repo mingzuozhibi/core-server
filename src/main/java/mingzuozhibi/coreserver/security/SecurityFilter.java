@@ -1,5 +1,6 @@
 package mingzuozhibi.coreserver.security;
 
+import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import mingzuozhibi.coreserver.modules.auth.token.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Slf4j
-@WebFilter("/api/*")
 @Component
 public class SecurityFilter implements Filter {
 
@@ -33,7 +32,7 @@ public class SecurityFilter implements Filter {
 
     private void trySetContext(HttpServletRequest request, SecurityContext context) {
         String uuid = request.getHeader("x-token");
-        if (uuid != null && !uuid.isEmpty()) {
+        if (!Strings.isNullOrEmpty(uuid)) {
             tokenRepository.findByUuid(uuid).ifPresent(token -> {
                 context.setAuthentication(new TokenAuthentication(token));
             });

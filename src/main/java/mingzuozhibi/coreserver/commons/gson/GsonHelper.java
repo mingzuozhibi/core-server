@@ -8,9 +8,9 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.time.Instant;
 
-public abstract class GsonUtils {
+public abstract class GsonHelper {
 
-    public static final Gson INSTANCE = createGson();
+    public static final Gson GSON = createGson();
 
     public static Gson createGson() {
         GsonBuilder gson = new GsonBuilder();
