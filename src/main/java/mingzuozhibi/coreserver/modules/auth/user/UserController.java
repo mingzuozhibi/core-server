@@ -2,7 +2,9 @@ package mingzuozhibi.coreserver.modules.auth.user;
 
 import lombok.Data;
 import mingzuozhibi.coreserver.commons.base.BaseController;
+import mingzuozhibi.coreserver.commons.msgs.Index;
 import mingzuozhibi.coreserver.commons.msgs.Msgs;
+import mingzuozhibi.coreserver.commons.msgs.MsgsWired;
 import mingzuozhibi.coreserver.commons.util.SecurityUtils;
 import mingzuozhibi.coreserver.security.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,13 +24,18 @@ import static mingzuozhibi.coreserver.modules.auth.user.User.ALL_ROLES;
 public class UserController extends BaseController {
 
     @Autowired
-    private Msgs msgs;
-
-    @Autowired
     private SessionManager sessionManager;
 
     @Autowired
     private UserRepository userRepository;
+
+    @MsgsWired(Index.User)
+    private Msgs msgs;
+
+    @PostConstruct
+    public void initLog() {
+        this.msgs = msgsHelper.with(Index.User);
+    }
 
     @Transactional
     @GetMapping("/api/users")

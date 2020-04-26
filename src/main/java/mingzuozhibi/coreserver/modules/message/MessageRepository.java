@@ -8,8 +8,8 @@ import java.util.Set;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-    Page<Message> findByModule(String module, Pageable pageable);
+    Page<Message> findByIndex(String index, Pageable pageable);
 
-    Page<Message> findByModuleAndLevelIn(String module, Set<String> level, Pageable pageable);
+    Page<Message> findByIndexAndLevelIn(String index, Set<String> level, Pageable pageable);
 
 }

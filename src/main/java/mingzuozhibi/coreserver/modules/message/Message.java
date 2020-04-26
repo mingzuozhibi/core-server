@@ -18,8 +18,8 @@ public class Message extends BaseModel {
     @Column(nullable = false, length = 10)
     private String level;
 
-    @Column(nullable = false, length = 20)
-    private String module;
+    @Column(name = "idx", nullable = false, length = 20)
+    private String index;
 
     @Column(nullable = false, length = 1000)
     private String content;

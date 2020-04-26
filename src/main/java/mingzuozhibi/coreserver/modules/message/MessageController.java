@@ -1,6 +1,7 @@
 package mingzuozhibi.coreserver.modules.message;
 
 import mingzuozhibi.coreserver.commons.base.BaseController;
+import mingzuozhibi.coreserver.commons.util.JmsKeys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.jms.annotation.JmsListener;
@@ -19,22 +20,22 @@ public class MessageController extends BaseController {
     @Autowired
     private MessageRepository messageRepository;
 
-    @GetMapping("/api/messages/{module}")
-    public String findByModule(@PathVariable String module,
-                               @RequestParam(required = false) Set<String> levels,
-                               @RequestParam(defaultValue = "1") int page,
-                               @RequestParam(defaultValue = "50") int pageSize) {
+    @GetMapping("/api/messages/{index}")
+    public String findByIndex(@PathVariable String index,
+                              @RequestParam(required = false) Set<String> levels,
+                              @RequestParam(defaultValue = "1") int page,
+                              @RequestParam(defaultValue = "50") int pageSize) {
         PageRequest pageable = PageRequest.of(page - 1, pageSize);
         if (levels == null || levels.isEmpty()) {
-            return objectResult(messageRepository.findByModule(module, pageable));
+            return objectResult(messageRepository.findByIndex(index, pageable));
         } else {
-            return objectResult(messageRepository.findByModuleAndLevelIn(module, levels, pageable));
+            return objectResult(messageRepository.findByIndexAndLevelIn(index, levels, pageable));
         }
     }
 
     @Transactional
-    @JmsListener(destination = "module.message")
-    public void moduleMessageListener(String json) {
+    @JmsListener(destination = JmsKeys.JMS_LOG_KEY)
+    public void listenJmsLog(String json) {
         Message message = GSON.fromJson(json, Message.class);
         message.setAcceptOn(Instant.now());
         messageRepository.save(message);

@@ -2,8 +2,9 @@ package mingzuozhibi.coreserver.test;
 
 import lombok.Data;
 import mingzuozhibi.coreserver.commons.base.BaseController;
+import mingzuozhibi.coreserver.commons.msgs.Index;
 import mingzuozhibi.coreserver.commons.msgs.Msgs;
-import org.springframework.beans.factory.annotation.Autowired;
+import mingzuozhibi.coreserver.commons.msgs.MsgsWired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestMsgsController extends BaseController {
 
-    @Autowired
+    @MsgsWired(Index.Test)
     private Msgs msgs;
 
     @Data
@@ -21,12 +22,12 @@ public class TestMsgsController extends BaseController {
 
     @PostMapping("/test/info")
     public void info(@RequestBody MessageForm form) {
-        msgs.info(form.message);
+        msgsHelper.info(Index.Test, form.message);
     }
 
     @PostMapping("/test/debug")
     public void debug(@RequestBody MessageForm form) {
-        msgs.debug(form.message);
+        msgsHelper.debug(Index.Test, form.message);
     }
 
 }
