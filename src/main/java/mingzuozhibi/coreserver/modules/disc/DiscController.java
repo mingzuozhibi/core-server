@@ -26,12 +26,12 @@ public class DiscController extends BaseController {
         return discRepository.findById(id, this::objectResult);
     }
 
-    @GetMapping("/api/discs/findByAsin/{asin}")
+    @GetMapping("/api/discs/find/asin/{asin}")
     public String findByAsin(@PathVariable String asin) {
         return discRepository.findByAsin(asin, this::objectResult);
     }
 
-    @GetMapping("/api/discs/findByTitleContains/{title}")
+    @GetMapping("/api/discs/find/title/contains/{title}")
     public String findByTitleContains(@PathVariable String title,
                                       @RequestParam(defaultValue = "1") int page,
                                       @RequestParam(defaultValue = "50") int pageSize) {
@@ -39,7 +39,7 @@ public class DiscController extends BaseController {
         return objectResult(discRepository.findByTitleContains(title, pageRequest));
     }
 
-    @GetMapping("/api/discs/findByTitleCNContains/{titleCN}")
+    @GetMapping("/api/discs/find/titleCN/contains/{titleCN}")
     public String findByTitleCNContains(@PathVariable String titleCN,
                                         @RequestParam(defaultValue = "1") int page,
                                         @RequestParam(defaultValue = "50") int pageSize) {
