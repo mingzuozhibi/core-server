@@ -14,6 +14,8 @@ public interface DiscRepository extends JpaRepository<Disc, Long> {
 
     Page<Disc> findByTitleContains(String title, Pageable pageable);
 
+    Page<Disc> findByTitleCNContains(String titleCN, Pageable pageable);
+
     default String findById(Long id, Function<Disc, String> function) {
         Optional<Disc> byId = findById(id);
         if (byId.isEmpty()) {

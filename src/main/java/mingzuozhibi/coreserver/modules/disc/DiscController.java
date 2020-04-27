@@ -39,4 +39,12 @@ public class DiscController extends BaseController {
         return objectResult(discRepository.findByTitleContains(title, pageRequest));
     }
 
+    @GetMapping("/api/discs/findByTitleCNContains/{titleCN}")
+    public String findByTitleCNContains(@PathVariable String titleCN,
+                                        @RequestParam(defaultValue = "1") int page,
+                                        @RequestParam(defaultValue = "50") int pageSize) {
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
+        return objectResult(discRepository.findByTitleCNContains(titleCN, pageRequest));
+    }
+
 }
