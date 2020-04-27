@@ -28,7 +28,7 @@ public class ImportDiscsController {
     @GetMapping("/import/discs")
     public int importDiscs() {
         AtomicInteger count = new AtomicInteger(0);
-        jdbcTemplate.query("select * from mzzb_server.disc", rs -> {
+        jdbcTemplate.query("select * from mzzb_pro.disc", rs -> {
             Disc disc = new Disc();
             disc.setAsin(rs.getString("asin"));
             disc.setTitle(rs.getString("title"));
@@ -41,7 +41,7 @@ public class ImportDiscsController {
             disc.setCreateOn(getInstant(rs, "create_time"));
             disc.setUpdateOn(getInstant(rs, "update_time"));
             disc.setModifyOn(getInstant(rs, "modify_time"));
-            disc.setDiscType(getDiscType(rs, "disc_type"));
+            disc.setDiscType(getDiscType(rs.getInt("disc_type")));
             disc.setReleaseDate(rs.getDate("release_date").toLocalDate());
             discRepository.save(disc);
             count.incrementAndGet();
@@ -57,8 +57,8 @@ public class ImportDiscsController {
         return rs.getObject(name) == null ? null : rs.getInt(name);
     }
 
-    private DiscType getDiscType(ResultSet rs, String name) throws SQLException {
-        switch (rs.getInt(name)) {
+    private DiscType getDiscType(int type) {
+        switch (type) {
             case 0:
                 return DiscType.CD;
             case 1:
