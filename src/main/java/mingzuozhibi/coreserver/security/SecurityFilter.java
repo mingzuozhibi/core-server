@@ -2,7 +2,7 @@ package mingzuozhibi.coreserver.security;
 
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
-import mingzuozhibi.coreserver.modules.auth.token.TokenRepository;
+import mingzuozhibi.coreserver.modules.token.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;

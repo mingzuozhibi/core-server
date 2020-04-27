@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.modules.auth.user;
+package mingzuozhibi.coreserver.modules.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

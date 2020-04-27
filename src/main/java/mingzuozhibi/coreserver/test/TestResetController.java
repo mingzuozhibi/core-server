@@ -1,9 +1,9 @@
 package mingzuozhibi.coreserver.test;
 
 import mingzuozhibi.coreserver.commons.base.BaseController;
-import mingzuozhibi.coreserver.modules.auth.token.TokenChecker;
-import mingzuozhibi.coreserver.modules.auth.token.TokenRepository;
-import mingzuozhibi.coreserver.modules.auth.user.UserRepository;
+import mingzuozhibi.coreserver.modules.token.TokenChecker;
+import mingzuozhibi.coreserver.modules.token.TokenRepository;
+import mingzuozhibi.coreserver.modules.user.UserRepository;
 import mingzuozhibi.coreserver.security.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

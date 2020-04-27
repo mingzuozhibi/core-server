@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.modules.auth.token;
+package mingzuozhibi.coreserver.modules.token;
 
 import mingzuozhibi.coreserver.commons.util.ReturnUtils;
 import org.springframework.data.jpa.repository.JpaRepository;

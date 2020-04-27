@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.modules.auth.user;
+package mingzuozhibi.coreserver.modules.user;
 
 import mingzuozhibi.coreserver.commons.util.ReturnUtils;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,6 +1,6 @@
 package mingzuozhibi.coreserver.commons.util;
 
-import mingzuozhibi.coreserver.modules.auth.user.User;
+import mingzuozhibi.coreserver.modules.user.User;
 import mingzuozhibi.coreserver.security.TokenAuthentication;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
