@@ -48,7 +48,7 @@ public class UserController extends BaseController {
     }
 
     @Transactional
-    @GetMapping("/api/users/find/username/{username}")
+    @GetMapping("/api/users/findByUsername/{username}")
     @PreAuthorize("hasRole('UserAdmin')")
     public String findByUsername(@PathVariable String username) {
         return userRepository.findByUsername(username, this::objectResult);

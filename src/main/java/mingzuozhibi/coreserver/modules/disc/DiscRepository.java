@@ -1,10 +1,10 @@
 package mingzuozhibi.coreserver.modules.disc;
 
 import mingzuozhibi.coreserver.commons.util.ReturnUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -12,7 +12,7 @@ public interface DiscRepository extends JpaRepository<Disc, Long> {
 
     Optional<Disc> findByAsin(String asin);
 
-    List<Disc> findByTitleContains(String title, Pageable pageable);
+    Page<Disc> findByTitleContains(String title, Pageable pageable);
 
     default String findById(Long id, Function<Disc, String> function) {
         Optional<Disc> byId = findById(id);
