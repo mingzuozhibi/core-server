@@ -1,8 +1,8 @@
 package mingzuozhibi.coreserver.security;
 
 import lombok.extern.slf4j.Slf4j;
-import mingzuozhibi.coreserver.modules.auth.token.Token;
-import mingzuozhibi.coreserver.modules.auth.user.User;
+import mingzuozhibi.coreserver.modules.token.Token;
+import mingzuozhibi.coreserver.modules.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

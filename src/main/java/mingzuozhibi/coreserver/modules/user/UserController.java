@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.modules.auth.user;
+package mingzuozhibi.coreserver.modules.user;
 
 import lombok.Data;
 import mingzuozhibi.coreserver.commons.base.BaseController;
@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import static mingzuozhibi.coreserver.commons.util.SecurityUtils.getCurrentUsername;
-import static mingzuozhibi.coreserver.modules.auth.user.User.ALL_ROLES;
+import static mingzuozhibi.coreserver.modules.user.User.ALL_ROLES;
 
 @RestController
 public class UserController extends BaseController {

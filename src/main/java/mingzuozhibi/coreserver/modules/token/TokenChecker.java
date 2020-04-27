@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.modules.auth.token;
+package mingzuozhibi.coreserver.modules.token;
 
 import lombok.extern.slf4j.Slf4j;
 import mingzuozhibi.coreserver.security.SessionManager;

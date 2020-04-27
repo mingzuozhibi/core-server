@@ -1,10 +1,10 @@
-package mingzuozhibi.coreserver.modules.auth.token;
+package mingzuozhibi.coreserver.modules.token;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mingzuozhibi.coreserver.commons.base.BaseModel;
-import mingzuozhibi.coreserver.modules.auth.user.User;
+import mingzuozhibi.coreserver.modules.user.User;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
