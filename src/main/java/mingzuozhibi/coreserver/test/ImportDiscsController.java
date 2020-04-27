@@ -1,6 +1,7 @@
 package mingzuozhibi.coreserver.test;
 
 import com.google.common.base.Strings;
+import lombok.extern.slf4j.Slf4j;
 import mingzuozhibi.coreserver.modules.disc.Disc;
 import mingzuozhibi.coreserver.modules.disc.Disc.DiscType;
 import mingzuozhibi.coreserver.modules.disc.DiscRepository;
@@ -16,6 +17,7 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Slf4j
 @RestController
 public class ImportDiscsController {
 
@@ -67,11 +69,9 @@ public class ImportDiscsController {
                 return DiscType.BD;
             case 3:
                 return DiscType.BD_OR_DVD;
-            case 4:
+            default:
                 return DiscType.OTHER;
         }
-        System.out.println("Default set type other");
-        return DiscType.OTHER;
     }
 
 }
