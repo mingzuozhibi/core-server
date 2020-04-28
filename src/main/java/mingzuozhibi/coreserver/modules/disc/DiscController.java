@@ -78,11 +78,9 @@ public class DiscController extends BaseController {
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
         Class<?> targetType = Disc.class.getDeclaredField(key).getType();
         Page<Disc> discs = discRepository.findAll((Specification<Disc>)
-            (root, query, builder) -> {
-                return query.where(
-                    builder.equal(root.get(key), conversionService.convert(value, targetType))
-                ).getRestriction();
-            }, pageRequest);
+            (root, query, builder) -> query.where(
+                builder.equal(root.get(key), conversionService.convert(value, targetType))
+            ).getRestriction(), pageRequest);
         return objectResult(discs);
     }
 
