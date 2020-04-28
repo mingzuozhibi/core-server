@@ -3,6 +3,7 @@ package mingzuozhibi.coreserver.test;
 import mingzuozhibi.coreserver.commons.base.BaseController;
 import mingzuozhibi.coreserver.modules.token.TokenChecker;
 import mingzuozhibi.coreserver.modules.token.TokenRepository;
+import mingzuozhibi.coreserver.modules.user.User;
 import mingzuozhibi.coreserver.modules.user.UserRepository;
 import mingzuozhibi.coreserver.security.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,18 @@ public class TestResetController extends BaseController {
     @GetMapping("/test/checkToken")
     public void testCheckToken() {
         tokenChecker.checkToken();
+    }
+
+    @GetMapping("/test/initTest")
+    public boolean testInitTest() {
+        if (userRepository.findByUsername("test").isEmpty()) {
+            User user = new User("test", "test", true);
+            user.getRoles().add("RootAdmin");
+            user.getRoles().add("UserAdmin");
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
 }
