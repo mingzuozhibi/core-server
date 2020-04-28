@@ -24,7 +24,7 @@ public class MsgsWiredProcessor implements BeanPostProcessor {
                 Msgs.Tag tag = annotation.value();
                 field.setAccessible(true);
                 field.set(bean, msgsHelper.with(tag));
-                msgsHelper.debug(Msgs.Tag.Default, "@MsgsWired: %s注入%s成功", beanName, tag.name());
+                msgsHelper.debug(Msgs.Tag.Default, "@MsgsWired: %s注入Msgs(%s)成功", beanName, tag.name());
             }
         }
         return bean;
