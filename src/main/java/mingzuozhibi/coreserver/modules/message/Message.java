@@ -18,7 +18,7 @@ public class Message extends BaseModel {
     @Column(nullable = false, length = 20)
     private String tag;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 20)
     private String level;
 
     @Column(nullable = false, length = 1000)

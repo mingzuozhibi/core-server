@@ -56,6 +56,7 @@ public class Disc extends BaseModel {
     private Instant modifyOn;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 20, nullable = false)
     private DiscType discType;
 
     @Column

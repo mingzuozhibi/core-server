@@ -5,11 +5,11 @@ USE core_server;
 CREATE TABLE `message` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `tag` varchar(20) NOT NULL,
-  `level` varchar(10) NOT NULL,
-  `content` varchar(1000) NOT NULL,
+  `level` varchar(20) NOT NULL,
   `accept_on` datetime(6) NOT NULL,
   `create_on` datetime(6) NOT NULL,
   `version` bigint(20) DEFAULT NULL,
+  `content` varchar(1000) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -48,19 +48,19 @@ CREATE TABLE `token` (
 CREATE TABLE `disc` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `asin` varchar(20) NOT NULL,
-  `title` varchar(500) NOT NULL,
-  `titlecn` varchar(255) DEFAULT NULL,
   `this_rank` int(11) DEFAULT NULL,
   `prev_rank` int(11) DEFAULT NULL,
   `add_point` int(11) DEFAULT NULL,
   `sum_point` int(11) DEFAULT NULL,
   `pow_point` int(11) DEFAULT NULL,
-  `disc_type` varchar(255) DEFAULT NULL,
+  `disc_type` varchar(20) DEFAULT NULL,
   `release_date` date DEFAULT NULL,
   `create_on` datetime(6) DEFAULT NULL,
   `update_on` datetime(6) DEFAULT NULL,
   `modify_on` datetime(6) DEFAULT NULL,
   `version` bigint(20) DEFAULT NULL,
+  `title` varchar(500) NOT NULL,
+  `titlecn` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_t9eafej76medxt6ohdfwpb0fp` (`asin`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
