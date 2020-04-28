@@ -61,7 +61,7 @@ public class MsgsHelper {
         sendMsg(tag, Level.ERROR, content);
     }
 
-    private void sendMsg(Msgs.Tag tag, Level level, String content) {
+    public void sendMsg(Msgs.Tag tag, Level level, String content) {
         MsgsObject msgsObject = new MsgsObject(tag, level, content);
         jmsTemplate.convertAndSend(JMS_LOG_KEY, GSON.toJson(msgsObject));
     }

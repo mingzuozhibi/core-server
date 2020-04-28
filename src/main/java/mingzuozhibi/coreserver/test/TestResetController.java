@@ -1,7 +1,6 @@
 package mingzuozhibi.coreserver.test;
 
 import mingzuozhibi.coreserver.commons.base.BaseController;
-import mingzuozhibi.coreserver.modules.token.TokenChecker;
 import mingzuozhibi.coreserver.modules.token.TokenRepository;
 import mingzuozhibi.coreserver.modules.user.UserRepository;
 import mingzuozhibi.coreserver.security.SessionManager;
@@ -14,9 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestResetController extends BaseController {
 
     @Autowired
-    private TokenChecker tokenChecker;
-
-    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -25,23 +21,18 @@ public class TestResetController extends BaseController {
     @Autowired
     private SessionManager sessionManager;
 
-    @GetMapping("/test/resetUser/{id}")
-    public void testResetUser(@PathVariable Long id) {
+    @GetMapping("/test/reset/user/{id}")
+    public void resetUser(@PathVariable Long id) {
         userRepository.findById(id).ifPresent(user -> {
             sessionManager.deleteSession(user);
         });
     }
 
-    @GetMapping("/test/resetToken/{id}")
-    public void testResetToken(@PathVariable Long id) {
+    @GetMapping("/test/reset/token/{id}")
+    public void resetToken(@PathVariable Long id) {
         tokenRepository.findById(id).ifPresent(token -> {
             sessionManager.deleteSession(token);
         });
-    }
-
-    @GetMapping("/test/checkToken")
-    public void testCheckToken() {
-        tokenChecker.checkToken();
     }
 
 }

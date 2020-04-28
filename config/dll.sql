@@ -1,4 +1,4 @@
-CREATE DATABASE core_server DEFAULT CHARSET utf8;
+CREATE DATABASE core_server DEFAULT CHARSET utf8mb4;
 
 USE core_server;
 
@@ -11,7 +11,7 @@ CREATE TABLE `message` (
   `version` bigint(20) DEFAULT NULL,
   `content` varchar(1000) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -23,14 +23,14 @@ CREATE TABLE `user` (
   `version` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_sb8bbouer5wak8vyiiy4pf2bx` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `user_roles` (
   `user_id` bigint(20) NOT NULL,
   `roles` varchar(255) DEFAULT NULL,
   KEY `FK55itppkw3i07do3h7qoclqd4k` (`user_id`),
   CONSTRAINT `FK55itppkw3i07do3h7qoclqd4k` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `token` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -43,7 +43,7 @@ CREATE TABLE `token` (
   UNIQUE KEY `UK_k74apnrvhamiburvb8hjwuh7h` (`uuid`),
   KEY `FKe32ek7ixanakfqsdaokm4q9y2` (`user_id`),
   CONSTRAINT `FKe32ek7ixanakfqsdaokm4q9y2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `disc` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -63,4 +63,4 @@ CREATE TABLE `disc` (
   `titlecn` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_t9eafej76medxt6ohdfwpb0fp` (`asin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
