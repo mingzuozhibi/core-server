@@ -2,7 +2,6 @@ package mingzuozhibi.coreserver.modules.user;
 
 import lombok.Data;
 import mingzuozhibi.coreserver.commons.base.BaseController;
-import mingzuozhibi.coreserver.commons.msgs.Index;
 import mingzuozhibi.coreserver.commons.msgs.Msgs;
 import mingzuozhibi.coreserver.commons.msgs.MsgsWired;
 import mingzuozhibi.coreserver.commons.util.SecurityUtils;
@@ -28,7 +27,7 @@ public class UserController extends BaseController {
     @Autowired
     private UserRepository userRepository;
 
-    @MsgsWired(Index.User)
+    @MsgsWired(Msgs.Tag.User)
     private Msgs msgs;
 
     @Transactional

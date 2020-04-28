@@ -1,21 +1,22 @@
 package mingzuozhibi.coreserver.commons.msgs.support;
 
 import lombok.Getter;
-import mingzuozhibi.coreserver.commons.msgs.Index;
 
 import java.time.Instant;
+
+import static mingzuozhibi.coreserver.commons.msgs.Msgs.Tag;
 
 @Getter
 public class MsgsObject {
 
+    private Tag tag;
     private Level level;
-    private Index index;
     private String content;
     private Instant createOn;
 
-    public MsgsObject(Level level, Index index, String content) {
+    public MsgsObject(Tag tag, Level level, String content) {
+        this.tag = tag;
         this.level = level;
-        this.index = index;
         this.content = content;
         this.createOn = Instant.now();
     }

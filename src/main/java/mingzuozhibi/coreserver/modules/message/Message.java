@@ -15,11 +15,11 @@ import java.time.Instant;
 @NoArgsConstructor
 public class Message extends BaseModel {
 
+    @Column(nullable = false, length = 20)
+    private String tag;
+
     @Column(nullable = false, length = 10)
     private String level;
-
-    @Column(name = "idx", nullable = false, length = 20)
-    private String index;
 
     @Column(nullable = false, length = 1000)
     private String content;

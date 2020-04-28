@@ -7,6 +7,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MsgsWired {
 
-    Index value() default Index.Default;
+    Msgs.Tag value() default Msgs.Tag.Default;
 
 }

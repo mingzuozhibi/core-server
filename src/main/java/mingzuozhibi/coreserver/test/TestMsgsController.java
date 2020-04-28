@@ -2,7 +2,6 @@ package mingzuozhibi.coreserver.test;
 
 import lombok.Data;
 import mingzuozhibi.coreserver.commons.base.BaseController;
-import mingzuozhibi.coreserver.commons.msgs.Index;
 import mingzuozhibi.coreserver.commons.msgs.Msgs;
 import mingzuozhibi.coreserver.commons.msgs.MsgsWired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestMsgsController extends BaseController {
 
-    @MsgsWired(Index.Test)
+    @MsgsWired(Msgs.Tag.Test)
     private Msgs msgs;
 
     @Data

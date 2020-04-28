@@ -5,41 +5,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class Msgs {
 
-    private MsgsHelper msgsHelper;
-    private Index index;
-
-    @Autowired
-    public Msgs(MsgsHelper msgsHelper, Index index) {
-        this.msgsHelper = msgsHelper;
-        this.index = index;
+    public enum Tag {
+        Default, Test, User
     }
 
-    public Msgs with(Index index) {
-        return new Msgs(msgsHelper, index);
+    public Msgs with(Tag tag) {
+        return new Msgs(msgsHelper, tag);
+    }
+
+    private MsgsHelper msgsHelper;
+    private Tag tag;
+
+    @Autowired
+    public Msgs(MsgsHelper msgsHelper, Tag tag) {
+        this.msgsHelper = msgsHelper;
+        this.tag = tag;
     }
 
     public void debug(String format, Object... args) {
-        msgsHelper.debug(index, format, args);
+        msgsHelper.debug(tag, format, args);
     }
 
     public void info(String format, Object... args) {
-        msgsHelper.info(index, format, args);
+        msgsHelper.info(tag, format, args);
     }
 
     public void notify(String format, Object... args) {
-        msgsHelper.notify(index, format, args);
+        msgsHelper.notify(tag, format, args);
     }
 
     public void success(String format, Object... args) {
-        msgsHelper.success(index, format, args);
+        msgsHelper.success(tag, format, args);
     }
 
     public void warn(String format, Object... args) {
-        msgsHelper.warn(index, format, args);
+        msgsHelper.warn(tag, format, args);
     }
 
     public void error(String format, Object... args) {
-        msgsHelper.error(index, format, args);
+        msgsHelper.error(tag, format, args);
     }
 
 }

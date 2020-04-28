@@ -2,9 +2,9 @@ package mingzuozhibi.coreserver.commons.base;
 
 import com.google.gson.Gson;
 import mingzuozhibi.coreserver.commons.gson.GsonHelper;
-import mingzuozhibi.coreserver.commons.msgs.support.MsgsHelper;
+import mingzuozhibi.coreserver.commons.msgs.Msgs;
+import mingzuozhibi.coreserver.commons.msgs.MsgsWired;
 import mingzuozhibi.coreserver.commons.util.ReturnUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,8 +16,8 @@ public class BaseController {
 
     protected Gson GSON = GsonHelper.GSON;
 
-    @Autowired
-    protected MsgsHelper msgsHelper;
+    @MsgsWired(Msgs.Tag.Default)
+    protected Msgs defaultMsgs;
 
     @ResponseBody
     @ExceptionHandler

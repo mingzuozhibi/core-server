@@ -1,7 +1,6 @@
 package mingzuozhibi.coreserver.commons.msgs.support;
 
 import lombok.extern.slf4j.Slf4j;
-import mingzuozhibi.coreserver.commons.msgs.Index;
 import mingzuozhibi.coreserver.commons.msgs.Msgs;
 import mingzuozhibi.coreserver.commons.msgs.support.MsgsObject.Level;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,48 +21,48 @@ public class MsgsHelper {
         this.jmsTemplate = jmsTemplate;
     }
 
-    public Msgs with(Index index) {
-        return new Msgs(this, index);
+    public Msgs with(Msgs.Tag tag) {
+        return new Msgs(this, tag);
     }
 
-    public void debug(Index index, String format, Object... args) {
+    public void debug(Msgs.Tag tag, String format, Object... args) {
         String content = String.format(format, args);
         log.debug(JMS_LOG_KEY + " => " + content);
-        sendMsg(Level.DEBUG, index, content);
+        sendMsg(tag, Level.DEBUG, content);
     }
 
-    public void info(Index index, String format, Object... args) {
+    public void info(Msgs.Tag tag, String format, Object... args) {
         String content = String.format(format, args);
         log.info(JMS_LOG_KEY + " => " + content);
-        sendMsg(Level.INFO, index, content);
+        sendMsg(tag, Level.INFO, content);
     }
 
-    public void notify(Index index, String format, Object... args) {
+    public void notify(Msgs.Tag tag, String format, Object... args) {
         String content = String.format(format, args);
         log.info(JMS_LOG_KEY + " => " + content);
-        sendMsg(Level.NOTIFY, index, content);
+        sendMsg(tag, Level.NOTIFY, content);
     }
 
-    public void success(Index index, String format, Object... args) {
+    public void success(Msgs.Tag tag, String format, Object... args) {
         String content = String.format(format, args);
         log.info(JMS_LOG_KEY + " => " + content);
-        sendMsg(Level.SUCCESS, index, content);
+        sendMsg(tag, Level.SUCCESS, content);
     }
 
-    public void warn(Index index, String format, Object... args) {
+    public void warn(Msgs.Tag tag, String format, Object... args) {
         String content = String.format(format, args);
         log.warn(JMS_LOG_KEY + " => " + content);
-        sendMsg(Level.WARN, index, content);
+        sendMsg(tag, Level.WARN, content);
     }
 
-    public void error(Index index, String format, Object... args) {
+    public void error(Msgs.Tag tag, String format, Object... args) {
         String content = String.format(format, args);
         log.error(JMS_LOG_KEY + " => " + content);
-        sendMsg(Level.ERROR, index, content);
+        sendMsg(tag, Level.ERROR, content);
     }
 
-    private void sendMsg(Level level, Index index, String content) {
-        MsgsObject msgsObject = new MsgsObject(level, index, content);
+    private void sendMsg(Msgs.Tag tag, Level level, String content) {
+        MsgsObject msgsObject = new MsgsObject(tag, level, content);
         jmsTemplate.convertAndSend(JMS_LOG_KEY, GSON.toJson(msgsObject));
     }
 
