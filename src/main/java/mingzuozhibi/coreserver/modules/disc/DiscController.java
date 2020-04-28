@@ -69,22 +69,21 @@ public class DiscController extends BaseController {
     @Autowired
     private ConversionService conversionService;
 
+    @SneakyThrows
     @GetMapping("/api/discs/find/specification/{key}/{value}")
     public String findBySpecification(@PathVariable String key,
                                       @PathVariable String value,
                                       @RequestParam(defaultValue = "1") int page,
                                       @RequestParam(defaultValue = "50") int pageSize) {
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
+        Class<?> targetType = Disc.class.getDeclaredField(key).getType();
         Page<Disc> discs = discRepository.findAll((Specification<Disc>)
-            (root, query, builder) -> query.where(
-                builder.equal(root.get(key), conversionService.convert(value, getType(key)))
-            ).getRestriction(), pageRequest);
+            (root, query, builder) -> {
+                return query.where(
+                    builder.equal(root.get(key), conversionService.convert(value, targetType))
+                ).getRestriction();
+            }, pageRequest);
         return objectResult(discs);
-    }
-
-    @SneakyThrows
-    private Class<?> getType(String key) {
-        return Disc.class.getDeclaredField(key).getType();
     }
 
 }
