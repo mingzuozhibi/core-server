@@ -1,6 +1,12 @@
 package mingzuozhibi.coreserver.security;
 
+import mingzuozhibi.coreserver.commons.msgs.Msgs;
+import mingzuozhibi.coreserver.commons.msgs.MsgsWired;
+import mingzuozhibi.coreserver.commons.util.PasswordUtils;
+import mingzuozhibi.coreserver.modules.user.User;
+import mingzuozhibi.coreserver.modules.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,6 +20,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SecurityFilter securityFilter;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @MsgsWired(Msgs.Tag.User)
+    private Msgs msgs;
+
+    @Value("${root.admin.username:admin}")
+    private String rootAdminUsername;
+
+    @Value("${root.admin.password:admin}")
+    private String rootAdminPassword;
+
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
@@ -25,6 +43,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .disable()
 
             .addFilterBefore(securityFilter, AnonymousAuthenticationFilter.class);
+
+        if (userRepository.findByUsername(rootAdminUsername).isEmpty()) {
+            String encode = PasswordUtils.encode(rootAdminUsername, rootAdminPassword);
+            User user = new User(rootAdminUsername, encode, true);
+            user.getRoles().add("RootAdmin");
+            user.getRoles().add("UserAdmin");
+            userRepository.save(user);
+            msgs.notify("已经初始化超级管理员用户");
+        }
+
     }
 
 }
