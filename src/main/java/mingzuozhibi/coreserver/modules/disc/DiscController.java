@@ -35,21 +35,6 @@ public class DiscController extends BaseController {
         return discRepository.findByAsin(asin, this::objectResult);
     }
 
-    @GetMapping("/api/discs/find/title/specification/{title}")
-    public String findByTitleSpecification(@PathVariable String title,
-                                           @RequestParam(defaultValue = "1") int page,
-                                           @RequestParam(defaultValue = "50") int pageSize) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
-        Page<Disc> discs = discRepository.findAll((Specification<Disc>)
-            (root, query, builder) -> query.where(
-                builder.or(
-                    builder.like(root.get("title"), "%" + title + "%"),
-                    builder.like(root.get("titleCN"), "%" + title + "%")
-                )
-            ).getRestriction(), pageRequest);
-        return objectResult(discs);
-    }
-
     @GetMapping("/api/discs/find/title/contains/{title}")
     public String findByTitleContains(@PathVariable String title,
                                       @RequestParam(defaultValue = "1") int page,
@@ -64,6 +49,21 @@ public class DiscController extends BaseController {
                                         @RequestParam(defaultValue = "50") int pageSize) {
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
         return objectResult(discRepository.findByTitleCNContains(titleCN, pageRequest));
+    }
+
+    @GetMapping("/api/discs/find/title/specification/{title}")
+    public String findByTitleSpecification(@PathVariable String title,
+                                           @RequestParam(defaultValue = "1") int page,
+                                           @RequestParam(defaultValue = "50") int pageSize) {
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
+        Page<Disc> discs = discRepository.findAll((Specification<Disc>)
+            (root, query, builder) -> query.where(
+                builder.or(
+                    builder.like(root.get("title"), "%" + title + "%"),
+                    builder.like(root.get("titleCN"), "%" + title + "%")
+                )
+            ).getRestriction(), pageRequest);
+        return objectResult(discs);
     }
 
     @Autowired
