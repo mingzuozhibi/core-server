@@ -101,7 +101,7 @@ public class AuthController extends BaseController {
 
     private void onLoginSuccess(User user, Token token) {
         user.setLoggedOn(Instant.now());
-        token.setLastAccess(Instant.now());
+        token.setAccessOn(Instant.now());
         Instant afterSevenDays = Instant.now().plusSeconds(7 * 86400);
         if (token.getExpireOn().isBefore(afterSevenDays)) {
             token.setExpireOn(afterSevenDays);

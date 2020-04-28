@@ -1,7 +1,7 @@
 package mingzuozhibi.coreserver.modules.message;
 
 import mingzuozhibi.coreserver.commons.base.BaseController;
-import mingzuozhibi.coreserver.commons.util.JmsKeys;
+import mingzuozhibi.coreserver.commons.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.jms.annotation.JmsListener;
@@ -34,7 +34,7 @@ public class MessageController extends BaseController {
     }
 
     @Transactional
-    @JmsListener(destination = JmsKeys.JMS_LOG_KEY)
+    @JmsListener(destination = Constants.JMS_LOG_KEY)
     public void listenJmsLog(String json) {
         Message message = GSON.fromJson(json, Message.class);
         message.setAcceptOn(Instant.now());
