@@ -5,10 +5,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mingzuozhibi.coreserver.commons.base.BaseModel;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Entity(name = "disc")
 @Getter
@@ -58,12 +60,5 @@ public class Disc extends BaseModel {
 
     @Column
     private LocalDate releaseDate;
-
-    @Transient
-    public Long getReleaseDays() {
-        return Optional.ofNullable(releaseDate)
-            .map(date -> date.toEpochDay() - LocalDate.now().toEpochDay())
-            .orElse(null);
-    }
 
 }
