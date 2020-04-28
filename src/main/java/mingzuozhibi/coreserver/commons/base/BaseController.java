@@ -28,7 +28,7 @@ public class BaseController {
             errors.add(t.getClass().getSimpleName() + ": " + e.getMessage());
             t = t.getCause();
         }
-        return errorMessage(String.join(", ", errors));
+        return errorMessage(String.join("  ====>  ", errors));
     }
 
     protected String errorMessage(String error) {
