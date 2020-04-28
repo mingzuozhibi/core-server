@@ -2,7 +2,9 @@ package mingzuozhibi.coreserver.modules.disc;
 
 import mingzuozhibi.coreserver.commons.base.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +31,21 @@ public class DiscController extends BaseController {
     @GetMapping("/api/discs/find/asin/{asin}")
     public String findByAsin(@PathVariable String asin) {
         return discRepository.findByAsin(asin, this::objectResult);
+    }
+
+    @GetMapping("/api/discs/find/title/specification/{title}")
+    public String findByTitleSpecification(@PathVariable String title,
+                                           @RequestParam(defaultValue = "1") int page,
+                                           @RequestParam(defaultValue = "50") int pageSize) {
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
+        Page<Disc> discs = discRepository.findAll((Specification<Disc>)
+            (root, query, builder) -> query.where(
+                builder.or(
+                    builder.like(root.get("title"), "%" + title + "%"),
+                    builder.like(root.get("titleCN"), "%" + title + "%")
+                )
+            ).getRestriction(), pageRequest);
+        return objectResult(discs);
     }
 
     @GetMapping("/api/discs/find/title/contains/{title}")
