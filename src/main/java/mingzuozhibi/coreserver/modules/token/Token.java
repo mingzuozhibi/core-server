@@ -1,18 +1,19 @@
-package mingzuozhibi.coreserver.modules.auth.token;
+package mingzuozhibi.coreserver.modules.token;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mingzuozhibi.coreserver.commons.base.BaseModel;
-import mingzuozhibi.coreserver.modules.auth.user.User;
+import mingzuozhibi.coreserver.modules.user.User;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 
-@Entity(name = "auth_token")
+@Entity(name = "token")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,14 +30,31 @@ public class Token extends BaseModel {
     @Column(nullable = false)
     private Instant expireOn;
 
+    @Column(nullable = false)
+    private Instant lastAccess;
+
     public Token(User user) {
         this.user = user;
         this.uuid = UUID.randomUUID().toString();
         this.expireOn = Instant.now().plusSeconds(14 * 86400);
+        this.lastAccess = Instant.now();
     }
 
     public boolean tokenExpired() {
         return Instant.now().isAfter(expireOn);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Token token = (Token) o;
+        return uuid.equals(token.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid);
     }
 
 }

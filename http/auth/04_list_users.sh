@@ -1,0 +1,1 @@
+sh https.sh :5000/api/users x-token:$(cat uuid)

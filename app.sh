@@ -65,7 +65,7 @@ do_fetch() {
 
 do_build() {
   echo "正在构建应用"
-  echo_cmd "mvn clean package"
+  echo_cmd "./mvnw clean package"
 }
 
 try_build() {

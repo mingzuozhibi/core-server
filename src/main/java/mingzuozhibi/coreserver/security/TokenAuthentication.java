@@ -1,6 +1,7 @@
 package mingzuozhibi.coreserver.security;
 
-import mingzuozhibi.coreserver.modules.auth.token.Token;
+import lombok.Getter;
+import mingzuozhibi.coreserver.modules.token.Token;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,10 +9,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-class TokenAuthentication implements Authentication {
+public class TokenAuthentication implements Authentication {
 
     private static final long serialVersionUID = 1L;
 
+    @Getter
     private Token token;
     private boolean authenticated;
 
@@ -45,7 +47,7 @@ class TokenAuthentication implements Authentication {
 
     @Override
     public boolean isAuthenticated() {
-        return authenticated;
+        return authenticated && !token.tokenExpired();
     }
 
     @Override
@@ -56,10 +58,6 @@ class TokenAuthentication implements Authentication {
     @Override
     public String getName() {
         return token.getUser().getUsername();
-    }
-
-    public Token getToken() {
-        return token;
     }
 
 }

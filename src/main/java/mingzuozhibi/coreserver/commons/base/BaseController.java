@@ -1,102 +1,58 @@
 package mingzuozhibi.coreserver.commons.base;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import mingzuozhibi.coreserver.commons.gson.GsonUtils;
+import mingzuozhibi.coreserver.commons.gson.GsonHelper;
+import mingzuozhibi.coreserver.commons.msgs.Msgs;
+import mingzuozhibi.coreserver.commons.msgs.MsgsWired;
+import mingzuozhibi.coreserver.commons.util.ReturnUtils;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class BaseController {
 
-    protected Gson GSON = GsonUtils.INSTANCE;
+    protected Gson GSON = GsonHelper.GSON;
+
+    @MsgsWired(Msgs.Tag.Default)
+    protected Msgs defaultMsgs;
 
     @ResponseBody
     @ExceptionHandler
     public String errorHandler(Exception e) {
-        return errorMessage(e.getMessage());
+        List<String> errors = new LinkedList<>();
+        Throwable t = e;
+        while (t != null) {
+            errors.add(t.getClass().getSimpleName() + ": " + e.getMessage());
+            t = t.getCause();
+        }
+        return errorMessage(String.join("  ====>  ", errors));
     }
 
-    public String errorMessage(String error) {
-        Objects.requireNonNull(error);
-        JsonObject root = new JsonObject();
-        root.addProperty("success", false);
-        root.addProperty("message", error);
-        return root.toString();
+    protected String errorMessage(String error) {
+        return ReturnUtils.errorMessage(error);
     }
 
-    public String objectResult(Boolean bool) {
-        Objects.requireNonNull(bool);
-        return objectResult(new JsonPrimitive(bool));
+    protected String objectResult(Boolean bool) {
+        return ReturnUtils.objectResult(bool);
     }
 
-    public String objectResult(Number number) {
-        Objects.requireNonNull(number);
-        return objectResult(new JsonPrimitive(number));
+    protected String objectResult(Number number) {
+        return ReturnUtils.objectResult(number);
     }
 
-    public String objectResult(String content) {
-        Objects.requireNonNull(content);
-        return objectResult(new JsonPrimitive(content));
+    protected String objectResult(String content) {
+        return ReturnUtils.objectResult(content);
     }
 
-    public String objectResult(Object data) {
-        Objects.requireNonNull(data);
-        return objectResult(GSON.toJsonTree(data));
+    protected String objectResult(Object data) {
+        return ReturnUtils.objectResult(data);
     }
 
-    public String objectResult(JsonElement data) {
-        Objects.requireNonNull(data);
-        JsonObject root = new JsonObject();
-        root.addProperty("success", true);
-        root.add("data", data);
-        return root.toString();
-    }
-
-    public String objectResult(Page<?> page) {
-        Objects.requireNonNull(page);
-        List<?> data = page.getContent();
-        Objects.requireNonNull(data);
-        return objectResult(GSON.toJsonTree(data), buildPage(page));
-    }
-
-    public String objectResult(Object data, Page<?> page) {
-        Objects.requireNonNull(data);
-        Objects.requireNonNull(page);
-        return objectResult(GSON.toJsonTree(data), buildPage(page));
-    }
-
-    public String objectResult(JsonElement data, JsonElement page) {
-        Objects.requireNonNull(data);
-        Objects.requireNonNull(page);
-        JsonObject root = new JsonObject();
-        root.addProperty("success", true);
-        root.add("data", data);
-        root.add("page", page);
-        return root.toString();
-    }
-
-    public JsonElement buildPage(Page<?> page) {
-        Objects.requireNonNull(page);
-        Pageable pageable = page.getPageable();
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber() + 1;
-        long totalElements = page.getTotalElements();
-        return buildPage(currentPage, pageSize, totalElements);
-    }
-
-    public JsonElement buildPage(long currentPage, long pageSize, long totalElements) {
-        JsonObject object = new JsonObject();
-        object.addProperty("pageSize", pageSize);
-        object.addProperty("currentPage", currentPage);
-        object.addProperty("totalElements", totalElements);
-        return object;
+    protected String objectResult(Page<?> page) {
+        return ReturnUtils.objectResult(page);
     }
 
 }

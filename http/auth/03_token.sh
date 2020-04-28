@@ -1,0 +1,1 @@
+sh https.sh :5000/api/auth/token uuid=$(cat uuid)

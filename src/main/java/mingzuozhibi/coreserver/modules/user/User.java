@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.modules.auth.user;
+package mingzuozhibi.coreserver.modules.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity(name = "auth_user")
+@Entity(name = "user")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -44,8 +44,10 @@ public class User extends BaseModel {
      * RootAdmin <br>
      */
 
-    @ElementCollection
-    @CollectionTable(name = "auth_user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    public static final Set<String> ALL_ROLES = Set.of("Guest", "Login", "DiscAdmin", "UserAdmin", "RootAdmin");
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     private Set<String> roles = new HashSet<>();
 
     public User(String username, String password, boolean enabled) {
@@ -58,8 +60,10 @@ public class User extends BaseModel {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         User user = (User) o;
         return Objects.equals(username, user.username);
     }
