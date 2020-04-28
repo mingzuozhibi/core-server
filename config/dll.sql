@@ -35,10 +35,10 @@ CREATE TABLE `user_roles` (
 CREATE TABLE `token` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `uuid` varchar(36) NOT NULL,
+  `access_on` datetime(6) NOT NULL,
   `expire_on` datetime(6) NOT NULL,
-  `last_access` datetime(6) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
   `version` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_k74apnrvhamiburvb8hjwuh7h` (`uuid`),
   KEY `FKe32ek7ixanakfqsdaokm4q9y2` (`user_id`),

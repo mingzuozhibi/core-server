@@ -28,16 +28,16 @@ public class Token extends BaseModel {
     private String uuid;
 
     @Column(nullable = false)
-    private Instant expireOn;
+    private Instant accessOn;
 
     @Column(nullable = false)
-    private Instant lastAccess;
+    private Instant expireOn;
 
     public Token(User user) {
         this.user = user;
         this.uuid = UUID.randomUUID().toString();
+        this.accessOn = Instant.now();
         this.expireOn = Instant.now().plusSeconds(14 * 86400);
-        this.lastAccess = Instant.now();
     }
 
     public boolean tokenExpired() {
