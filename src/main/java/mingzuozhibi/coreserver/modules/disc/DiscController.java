@@ -1,7 +1,9 @@
 package mingzuozhibi.coreserver.modules.disc;
 
+import lombok.SneakyThrows;
 import mingzuozhibi.coreserver.commons.base.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -62,6 +64,27 @@ public class DiscController extends BaseController {
                                         @RequestParam(defaultValue = "50") int pageSize) {
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
         return objectResult(discRepository.findByTitleCNContains(titleCN, pageRequest));
+    }
+
+    @Autowired
+    private ConversionService conversionService;
+
+    @GetMapping("/api/discs/find/specification/{key}/{value}")
+    public String findBySpecification(@PathVariable String key,
+                                      @PathVariable String value,
+                                      @RequestParam(defaultValue = "1") int page,
+                                      @RequestParam(defaultValue = "50") int pageSize) {
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
+        Page<Disc> discs = discRepository.findAll((Specification<Disc>)
+            (root, query, builder) -> query.where(
+                builder.equal(root.get(key), conversionService.convert(value, getType(key)))
+            ).getRestriction(), pageRequest);
+        return objectResult(discs);
+    }
+
+    @SneakyThrows
+    private Class<?> getType(String key) {
+        return Disc.class.getDeclaredField(key).getType();
     }
 
 }
