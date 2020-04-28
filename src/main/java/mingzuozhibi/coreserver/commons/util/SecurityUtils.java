@@ -1,5 +1,6 @@
 package mingzuozhibi.coreserver.commons.util;
 
+import mingzuozhibi.coreserver.modules.token.Token;
 import mingzuozhibi.coreserver.modules.user.User;
 import mingzuozhibi.coreserver.security.TokenAuthentication;
 import org.springframework.security.core.Authentication;
@@ -21,13 +22,20 @@ public abstract class SecurityUtils {
         }
     }
 
-    public static Optional<User> getCurrentUser() {
+    public static Optional<TokenAuthentication> getTokenAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof TokenAuthentication) {
-            TokenAuthentication tokenAuthentication = (TokenAuthentication) authentication;
-            return Optional.of(tokenAuthentication.getToken().getUser());
+            return Optional.of((TokenAuthentication) authentication);
         }
         return Optional.empty();
+    }
+
+    public static Optional<Token> getCurrentToken() {
+        return getTokenAuthentication().map(TokenAuthentication::getToken);
+    }
+
+    public static Optional<User> getCurrentUser() {
+        return getCurrentToken().map(Token::getUser);
     }
 
     public static String getCurrentUsername() {
