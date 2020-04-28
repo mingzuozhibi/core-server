@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-echo 'CREATE DATABASE core_server DEFAULT CHARSET utf8' | mysql -uroot -p
+echo 'CREATE DATABASE core_server DEFAULT CHARSET utf8mb4;' | mysql -uroot -p
