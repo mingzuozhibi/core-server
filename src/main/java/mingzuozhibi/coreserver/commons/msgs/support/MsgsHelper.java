@@ -8,7 +8,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 import static mingzuozhibi.coreserver.commons.gson.GsonHelper.GSON;
-import static mingzuozhibi.coreserver.commons.util.JmsKeys.JMS_LOG_KEY;
+import static mingzuozhibi.coreserver.commons.util.Constants.JMS_LOG_KEY;
 
 @Slf4j
 @Component
