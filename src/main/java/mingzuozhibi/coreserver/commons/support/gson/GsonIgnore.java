@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.commons.gson;
+package mingzuozhibi.coreserver.commons.support.gson;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

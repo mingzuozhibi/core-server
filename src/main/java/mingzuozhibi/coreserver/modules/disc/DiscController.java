@@ -1,7 +1,7 @@
 package mingzuozhibi.coreserver.modules.disc;
 
 import mingzuozhibi.coreserver.commons.base.BaseController;
-import mingzuozhibi.coreserver.commons.util.SpecificationUtils;
+import mingzuozhibi.coreserver.commons.support.ReflectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
@@ -75,7 +75,7 @@ public class DiscController extends BaseController {
                                       @RequestParam(defaultValue = "1") int page,
                                       @RequestParam(defaultValue = "50") int pageSize) {
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
-        Class<?> fieldClass = SpecificationUtils.getFieldClass(Disc.class, key);
+        Class<?> fieldClass = ReflectUtils.getFieldClass(Disc.class, key);
         Page<Disc> discs = discRepository.findAll((Specification<Disc>)
             (root, query, builder) -> query.where(
                 builder.equal(root.get(key), conversionService.convert(value, fieldClass))

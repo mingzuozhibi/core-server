@@ -25,7 +25,7 @@ public class TokenAuthentication implements Authentication {
     @Override
     public Set<GrantedAuthority> getAuthorities() {
         return token.getUser().getRoles().stream()
-            .map(role -> "ROLE_" + role)
+            .map(role -> "ROLE_" + role.name())
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toSet());
     }

@@ -3,7 +3,7 @@ package mingzuozhibi.coreserver.commons.base;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mingzuozhibi.coreserver.commons.gson.GsonIgnore;
+import mingzuozhibi.coreserver.commons.support.gson.GsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;

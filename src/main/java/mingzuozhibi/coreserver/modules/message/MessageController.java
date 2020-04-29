@@ -1,7 +1,7 @@
 package mingzuozhibi.coreserver.modules.message;
 
 import mingzuozhibi.coreserver.commons.base.BaseController;
-import mingzuozhibi.coreserver.commons.util.Constants;
+import mingzuozhibi.coreserver.commons.support.QueueKeys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.jms.annotation.JmsListener;
@@ -20,21 +20,21 @@ public class MessageController extends BaseController {
     @Autowired
     private MessageRepository messageRepository;
 
-    @GetMapping("/api/messages/{tag}")
-    public String findByTag(@PathVariable String tag,
-                            @RequestParam(required = false) Set<String> levels,
-                            @RequestParam(defaultValue = "1") int page,
-                            @RequestParam(defaultValue = "50") int pageSize) {
+    @GetMapping("/api/messages/{index}")
+    public String findByIndex(@PathVariable String index,
+                              @RequestParam(required = false) Set<String> levels,
+                              @RequestParam(defaultValue = "1") int page,
+                              @RequestParam(defaultValue = "50") int pageSize) {
         PageRequest pageable = PageRequest.of(page - 1, pageSize);
         if (levels == null || levels.isEmpty()) {
-            return objectResult(messageRepository.findByTag(tag, pageable));
+            return objectResult(messageRepository.findByIndex(index, pageable));
         } else {
-            return objectResult(messageRepository.findByTagAndLevelIn(tag, levels, pageable));
+            return objectResult(messageRepository.findByIndexAndLevelIn(index, levels, pageable));
         }
     }
 
     @Transactional
-    @JmsListener(destination = Constants.JMS_LOG_KEY)
+    @JmsListener(destination = QueueKeys.JMS_LOG_KEY)
     public void listenJmsLog(String json) {
         Message message = GSON.fromJson(json, Message.class);
         message.setAcceptOn(Instant.now());

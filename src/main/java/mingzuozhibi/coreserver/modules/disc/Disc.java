@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mingzuozhibi.coreserver.commons.base.BaseModel;
+import mingzuozhibi.coreserver.modules.disc.enums.DiscType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,10 +18,6 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 public class Disc extends BaseModel {
-
-    public enum DiscType {
-        CD, BD, DVD, BD_OR_DVD, OTHER
-    }
 
     @Column(length = 20, nullable = false, unique = true)
     private String asin;
