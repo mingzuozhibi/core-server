@@ -3,7 +3,7 @@ package mingzuozhibi.coreserver.test;
 import mingzuozhibi.coreserver.commons.base.BaseController;
 import mingzuozhibi.coreserver.modules.token.TokenRepository;
 import mingzuozhibi.coreserver.modules.user.UserRepository;
-import mingzuozhibi.coreserver.security.SessionManager;
+import mingzuozhibi.coreserver.security.auth.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

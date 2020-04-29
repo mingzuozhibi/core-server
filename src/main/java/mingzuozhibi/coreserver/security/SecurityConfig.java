@@ -1,8 +1,9 @@
 package mingzuozhibi.coreserver.security;
 
-import mingzuozhibi.coreserver.commons.msgs.Msgs;
-import mingzuozhibi.coreserver.commons.msgs.MsgsWired;
-import mingzuozhibi.coreserver.commons.util.PasswordUtils;
+import mingzuozhibi.coreserver.commons.message.Msgs;
+import mingzuozhibi.coreserver.commons.message.MsgsWired;
+import mingzuozhibi.coreserver.commons.message.enums.Tag;
+import mingzuozhibi.coreserver.security.support.PasswdEncoder;
 import mingzuozhibi.coreserver.modules.user.User;
 import mingzuozhibi.coreserver.modules.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserRepository userRepository;
 
-    @MsgsWired(Msgs.Tag.User)
+    @MsgsWired(Tag.User)
     private Msgs msgs;
 
     @Value("${root.admin.username:admin}")
@@ -45,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .addFilterBefore(securityFilter, AnonymousAuthenticationFilter.class);
 
         if (userRepository.findByUsername(rootAdminUsername).isEmpty()) {
-            String encode = PasswordUtils.encode(rootAdminUsername, rootAdminPassword);
+            String encode = PasswdEncoder.encode(rootAdminUsername, rootAdminPassword);
             User user = new User(rootAdminUsername, encode, true);
             user.getRoles().add("RootAdmin");
             user.getRoles().add("UserAdmin");

@@ -1,37 +1,33 @@
 package mingzuozhibi.coreserver;
 
+import mingzuozhibi.coreserver.commons.support.Formatters;
+import mingzuozhibi.coreserver.commons.support.ReflectUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.time.Instant;
+import java.time.LocalDate;
 
 @EnableScheduling
 @SpringBootApplication
-public class CoreServerApplication {
+public class CoreServerApplication implements WebMvcConfigurer {
 
     public static void main(String[] args) {
-        disableAccessWarnings();
+        ReflectUtils.disableAccessWarnings();
         SpringApplication.run(CoreServerApplication.class, args);
     }
 
-    public static void disableAccessWarnings() {
-        try {
-            Class<?> unsafeClass = Class.forName("sun.misc.Unsafe");
-            Field field = unsafeClass.getDeclaredField("theUnsafe");
-            field.setAccessible(true);
-            Object unsafe = field.get(null);
-
-            Method putObjectVolatile = unsafeClass.getDeclaredMethod("putObjectVolatile", Object.class, long.class, Object.class);
-            Method staticFieldOffset = unsafeClass.getDeclaredMethod("staticFieldOffset", Field.class);
-
-            Class<?> loggerClass = Class.forName("jdk.internal.module.IllegalAccessLogger");
-            Field loggerField = loggerClass.getDeclaredField("logger");
-            Long offset = (Long) staticFieldOffset.invoke(unsafe, loggerField);
-            putObjectVolatile.invoke(unsafe, loggerClass, offset, null);
-        } catch (Exception ignored) {
-        }
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(String.class, LocalDate.class,
+            source -> LocalDate.parse(source, Formatters.ISO_DATE_FORMATTER)
+        );
+        registry.addConverter(String.class, Instant.class,
+            source -> Instant.ofEpochMilli(Long.parseLong(source))
+        );
     }
 
 }

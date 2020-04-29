@@ -1,6 +1,6 @@
 package mingzuozhibi.coreserver.modules.disc;
 
-import mingzuozhibi.coreserver.commons.util.ReturnUtils;
+import mingzuozhibi.coreserver.commons.support.ReturnUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,10 +1,10 @@
-package mingzuozhibi.coreserver.commons.msgs.support;
+package mingzuozhibi.coreserver.commons.message.support;
 
 import lombok.Getter;
+import mingzuozhibi.coreserver.commons.message.enums.Level;
+import mingzuozhibi.coreserver.commons.message.enums.Tag;
 
 import java.time.Instant;
-
-import static mingzuozhibi.coreserver.commons.msgs.Msgs.Tag;
 
 @Getter
 public class MsgsObject {
@@ -19,10 +19,6 @@ public class MsgsObject {
         this.level = level;
         this.content = content;
         this.createOn = Instant.now();
-    }
-
-    public enum Level {
-        DEBUG, INFO, NOTIFY, SUCCESS, WARN, ERROR
     }
 
 }

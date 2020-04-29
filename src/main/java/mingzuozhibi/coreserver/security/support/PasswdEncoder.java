@@ -1,10 +1,10 @@
-package mingzuozhibi.coreserver.commons.util;
+package mingzuozhibi.coreserver.security.support;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Objects;
 
-public abstract class PasswordUtils {
+public abstract class PasswdEncoder {
 
     private static final String SALT1 = "mingzuozhibi.com/1";
     private static final String SALT2 = "mingzuozhibi.com/2";

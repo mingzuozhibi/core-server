@@ -2,10 +2,11 @@ package mingzuozhibi.coreserver.modules.user;
 
 import lombok.Data;
 import mingzuozhibi.coreserver.commons.base.BaseController;
-import mingzuozhibi.coreserver.commons.msgs.Msgs;
-import mingzuozhibi.coreserver.commons.msgs.MsgsWired;
-import mingzuozhibi.coreserver.commons.util.SecurityUtils;
-import mingzuozhibi.coreserver.security.SessionManager;
+import mingzuozhibi.coreserver.commons.message.Msgs;
+import mingzuozhibi.coreserver.commons.message.MsgsWired;
+import mingzuozhibi.coreserver.commons.message.enums.Tag;
+import mingzuozhibi.coreserver.security.support.SecurityUtils;
+import mingzuozhibi.coreserver.security.auth.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Objects;
 import java.util.Set;
 
-import static mingzuozhibi.coreserver.commons.util.SecurityUtils.getCurrentUsername;
+import static mingzuozhibi.coreserver.security.support.SecurityUtils.getCurrentUsername;
 import static mingzuozhibi.coreserver.modules.user.User.ALL_ROLES;
 
 @RestController
@@ -27,7 +28,7 @@ public class UserController extends BaseController {
     @Autowired
     private UserRepository userRepository;
 
-    @MsgsWired(Msgs.Tag.User)
+    @MsgsWired(Tag.User)
     private Msgs msgs;
 
     @Transactional

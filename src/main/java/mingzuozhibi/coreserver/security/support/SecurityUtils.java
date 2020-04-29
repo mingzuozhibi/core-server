@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.commons.util;
+package mingzuozhibi.coreserver.security.support;
 
 import mingzuozhibi.coreserver.modules.token.Token;
 import mingzuozhibi.coreserver.modules.user.User;

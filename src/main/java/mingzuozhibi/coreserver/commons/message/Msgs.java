@@ -1,13 +1,10 @@
-package mingzuozhibi.coreserver.commons.msgs;
+package mingzuozhibi.coreserver.commons.message;
 
-import mingzuozhibi.coreserver.commons.msgs.support.MsgsHelper;
+import mingzuozhibi.coreserver.commons.message.enums.Tag;
+import mingzuozhibi.coreserver.commons.message.support.MsgsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Msgs {
-
-    public enum Tag {
-        Default, Test, User
-    }
 
     public Msgs with(Tag tag) {
         return new Msgs(msgsHelper, tag);

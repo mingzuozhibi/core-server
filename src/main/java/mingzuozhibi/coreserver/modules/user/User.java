@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mingzuozhibi.coreserver.commons.base.BaseModel;
-import mingzuozhibi.coreserver.commons.gson.GsonIgnore;
+import mingzuozhibi.coreserver.commons.support.gson.GsonIgnore;
 
 import javax.persistence.*;
 import java.time.Instant;

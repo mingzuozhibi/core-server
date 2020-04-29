@@ -2,9 +2,9 @@ package mingzuozhibi.coreserver.test;
 
 import lombok.Data;
 import mingzuozhibi.coreserver.commons.base.BaseController;
-import mingzuozhibi.coreserver.commons.msgs.Msgs.Tag;
-import mingzuozhibi.coreserver.commons.msgs.support.MsgsHelper;
-import mingzuozhibi.coreserver.commons.msgs.support.MsgsObject.Level;
+import mingzuozhibi.coreserver.commons.message.enums.Tag;
+import mingzuozhibi.coreserver.commons.message.support.MsgsHelper;
+import mingzuozhibi.coreserver.commons.message.enums.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

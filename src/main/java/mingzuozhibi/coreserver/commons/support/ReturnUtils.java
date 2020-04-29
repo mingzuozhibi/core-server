@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.commons.util;
+package mingzuozhibi.coreserver.commons.support;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Objects;
 
-import static mingzuozhibi.coreserver.commons.gson.GsonHelper.GSON;
+import static mingzuozhibi.coreserver.commons.support.gson.GsonHelper.GSON;
 
 public abstract class ReturnUtils {
 
