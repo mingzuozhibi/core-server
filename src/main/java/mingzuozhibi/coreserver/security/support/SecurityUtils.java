@@ -2,6 +2,7 @@ package mingzuozhibi.coreserver.security.support;
 
 import mingzuozhibi.coreserver.modules.token.Token;
 import mingzuozhibi.coreserver.modules.user.User;
+import mingzuozhibi.coreserver.modules.user.enums.Role;
 import mingzuozhibi.coreserver.security.TokenAuthentication;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +13,7 @@ import java.util.Set;
 public abstract class SecurityUtils {
 
     public interface SecurityCheckFunction {
-        boolean apply(Set<String> roles);
+        boolean apply(Set<Role> roles);
     }
 
     public static void doSecurityCheck(SecurityCheckFunction function) throws SecurityException {

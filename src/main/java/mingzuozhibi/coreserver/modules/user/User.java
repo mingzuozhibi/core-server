@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mingzuozhibi.coreserver.commons.base.BaseModel;
 import mingzuozhibi.coreserver.commons.support.gson.GsonIgnore;
+import mingzuozhibi.coreserver.modules.user.enums.Role;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -36,25 +37,17 @@ public class User extends BaseModel {
     @Column
     private Instant loggedOn;
 
-    /**
-     * Guest <br>
-     * Login <br>
-     * DiscAdmin <br>
-     * UserAdmin <br>
-     * RootAdmin <br>
-     */
-
-    public static final Set<String> ALL_ROLES = Set.of("Guest", "Login", "DiscAdmin", "UserAdmin", "RootAdmin");
-
+    @Column(length = 20, nullable = false)
+    @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    private Set<String> roles = new HashSet<>();
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "id"))
+    private Set<Role> roles = new HashSet<>();
 
     public User(String username, String password, boolean enabled) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
-        this.roles.add("Login");
+        this.roles.add(Role.Login);
         this.createOn = Instant.now();
     }
 

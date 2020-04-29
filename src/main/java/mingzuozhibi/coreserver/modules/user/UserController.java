@@ -4,9 +4,10 @@ import lombok.Data;
 import mingzuozhibi.coreserver.commons.base.BaseController;
 import mingzuozhibi.coreserver.commons.message.Msgs;
 import mingzuozhibi.coreserver.commons.message.MsgsWired;
-import mingzuozhibi.coreserver.commons.message.enums.Tag;
-import mingzuozhibi.coreserver.security.support.SecurityUtils;
+import mingzuozhibi.coreserver.commons.message.enums.Index;
+import mingzuozhibi.coreserver.modules.user.enums.Role;
 import mingzuozhibi.coreserver.security.auth.SessionManager;
+import mingzuozhibi.coreserver.security.support.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,9 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 import java.util.Set;
-
-import static mingzuozhibi.coreserver.security.support.SecurityUtils.getCurrentUsername;
-import static mingzuozhibi.coreserver.modules.user.User.ALL_ROLES;
 
 @RestController
 public class UserController extends BaseController {
@@ -28,7 +26,7 @@ public class UserController extends BaseController {
     @Autowired
     private UserRepository userRepository;
 
-    @MsgsWired(Tag.User)
+    @MsgsWired(Index.User)
     private Msgs msgs;
 
     @Transactional
@@ -57,7 +55,7 @@ public class UserController extends BaseController {
     @Data
     private static class EditForm {
         private boolean enabled;
-        private String changedRole;
+        private Role targetRole;
     }
 
     @Transactional
@@ -66,12 +64,13 @@ public class UserController extends BaseController {
     public String setEnabled(@PathVariable Long id, @RequestBody EditForm form) {
         return userRepository.findById(id, user -> {
             user.getRoles().stream()
-                .filter(Set.of("RootAdmin", "UserAdmin")::contains)
+                .filter(Set.of(Role.RootAdmin, Role.UserAdmin)::contains)
                 .forEach(this::checkSecurityOfRole);
             if (user.isEnabled() != form.enabled) {
                 user.setEnabled(form.enabled);
                 sessionManager.deleteSession(user);
-                msgs.info("用户%s设置%s的启用状态为%b", getCurrentUsername(), user.getUsername(), form.enabled);
+                msgs.info("用户%s设置%s的启用状态为%b",
+                    SecurityUtils.getCurrentUsername(), user.getUsername(), form.enabled);
             }
             return objectResult(user);
         });
@@ -82,10 +81,11 @@ public class UserController extends BaseController {
     @PreAuthorize("hasRole('UserAdmin')")
     public String pushRole(@PathVariable Long id, @RequestBody EditForm form) {
         return userRepository.findById(id, user -> {
-            checkSecurityOfRole(form.changedRole);
-            if (user.getRoles().add(form.changedRole)) {
+            checkSecurityOfRole(form.targetRole);
+            if (user.getRoles().add(form.targetRole)) {
                 sessionManager.deleteSession(user);
-                msgs.info("用户%s给%s添加了权限%s", getCurrentUsername(), user.getUsername(), form.changedRole);
+                msgs.info("用户%s给%s添加了权限%s",
+                    SecurityUtils.getCurrentUsername(), user.getUsername(), form.targetRole);
             }
             return objectResult(user);
         });
@@ -96,25 +96,23 @@ public class UserController extends BaseController {
     @PreAuthorize("hasRole('UserAdmin')")
     public String dropRole(@PathVariable Long id, @RequestBody EditForm form) {
         return userRepository.findById(id, user -> {
-            checkSecurityOfRole(form.changedRole);
-            if (user.getRoles().remove(form.changedRole)) {
+            checkSecurityOfRole(form.targetRole);
+            if (user.getRoles().remove(form.targetRole)) {
                 sessionManager.deleteSession(user);
-                msgs.info("用户%s从%s移除了权限%s", getCurrentUsername(), user.getUsername(), form.changedRole);
+                msgs.info("用户%s从%s移除了权限%s",
+                    SecurityUtils.getCurrentUsername(), user.getUsername(), form.targetRole);
             }
             return objectResult(user);
         });
     }
 
-    private void checkSecurityOfRole(String role) {
+    private void checkSecurityOfRole(Role role) {
         Objects.requireNonNull(role);
         SecurityUtils.doSecurityCheck(roles -> {
-            if (role.equals("RootAdmin")) {
+            if (Role.RootAdmin == role) {
                 return false;
             }
-            if (role.equals("UserAdmin") && !roles.contains("RootAdmin")) {
-                return false;
-            }
-            if (!ALL_ROLES.contains(role)) {
+            if (Role.UserAdmin == role && !roles.contains(Role.RootAdmin)) {
                 return false;
             }
             return true;

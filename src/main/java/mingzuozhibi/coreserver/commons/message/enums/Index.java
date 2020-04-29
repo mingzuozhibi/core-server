@@ -1,5 +1,5 @@
 package mingzuozhibi.coreserver.commons.message.enums;
 
-public enum Tag {
+public enum Index {
     Default, Test, User
 }

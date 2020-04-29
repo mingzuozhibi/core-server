@@ -1,46 +1,46 @@
 package mingzuozhibi.coreserver.commons.message;
 
-import mingzuozhibi.coreserver.commons.message.enums.Tag;
+import mingzuozhibi.coreserver.commons.message.enums.Index;
 import mingzuozhibi.coreserver.commons.message.support.MsgsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Msgs {
 
-    public Msgs with(Tag tag) {
-        return new Msgs(msgsHelper, tag);
+    public Msgs with(Index index) {
+        return new Msgs(msgsHelper, index);
     }
 
     private MsgsHelper msgsHelper;
-    private Tag tag;
+    private Index index;
 
     @Autowired
-    public Msgs(MsgsHelper msgsHelper, Tag tag) {
+    public Msgs(MsgsHelper msgsHelper, Index index) {
         this.msgsHelper = msgsHelper;
-        this.tag = tag;
+        this.index = index;
     }
 
     public void debug(String format, Object... args) {
-        msgsHelper.debug(tag, format, args);
+        msgsHelper.debug(index, format, args);
     }
 
     public void info(String format, Object... args) {
-        msgsHelper.info(tag, format, args);
+        msgsHelper.info(index, format, args);
     }
 
     public void notify(String format, Object... args) {
-        msgsHelper.notify(tag, format, args);
+        msgsHelper.notify(index, format, args);
     }
 
     public void success(String format, Object... args) {
-        msgsHelper.success(tag, format, args);
+        msgsHelper.success(index, format, args);
     }
 
     public void warn(String format, Object... args) {
-        msgsHelper.warn(tag, format, args);
+        msgsHelper.warn(index, format, args);
     }
 
     public void error(String format, Object... args) {
-        msgsHelper.error(tag, format, args);
+        msgsHelper.error(index, format, args);
     }
 
 }

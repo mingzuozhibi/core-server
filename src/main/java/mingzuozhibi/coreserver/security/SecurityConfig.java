@@ -1,11 +1,11 @@
 package mingzuozhibi.coreserver.security;
 
-import mingzuozhibi.coreserver.commons.message.Msgs;
-import mingzuozhibi.coreserver.commons.message.MsgsWired;
-import mingzuozhibi.coreserver.commons.message.enums.Tag;
-import mingzuozhibi.coreserver.security.support.PasswdEncoder;
+import mingzuozhibi.coreserver.commons.message.enums.Index;
+import mingzuozhibi.coreserver.commons.message.support.MsgsHelper;
 import mingzuozhibi.coreserver.modules.user.User;
 import mingzuozhibi.coreserver.modules.user.UserRepository;
+import mingzuozhibi.coreserver.modules.user.enums.Role;
+import mingzuozhibi.coreserver.security.support.PasswdEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -24,8 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserRepository userRepository;
 
-    @MsgsWired(Tag.User)
-    private Msgs msgs;
+    @Autowired
+    private MsgsHelper msgsHelper;
 
     @Value("${root.admin.username:admin}")
     private String rootAdminUsername;
@@ -48,10 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         if (userRepository.findByUsername(rootAdminUsername).isEmpty()) {
             String encode = PasswdEncoder.encode(rootAdminUsername, rootAdminPassword);
             User user = new User(rootAdminUsername, encode, true);
-            user.getRoles().add("RootAdmin");
-            user.getRoles().add("UserAdmin");
+            user.getRoles().add(Role.RootAdmin);
+            user.getRoles().add(Role.UserAdmin);
             userRepository.save(user);
-            msgs.notify("已经初始化超级管理员用户");
+            msgsHelper.notify(Index.User, "已经初始化超级管理员用户");
         }
 
     }

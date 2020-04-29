@@ -1,7 +1,7 @@
 package mingzuozhibi.coreserver.commons.message;
 
 import lombok.SneakyThrows;
-import mingzuozhibi.coreserver.commons.message.enums.Tag;
+import mingzuozhibi.coreserver.commons.message.enums.Index;
 import mingzuozhibi.coreserver.commons.message.support.MsgsHelper;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,10 @@ public class MsgsWiredProcessor implements BeanPostProcessor {
         for (Field field : beanClass.getDeclaredFields()) {
             MsgsWired annotation = field.getAnnotation(MsgsWired.class);
             if (annotation != null) {
-                Tag tag = annotation.value();
+                Index index = annotation.value();
                 field.setAccessible(true);
-                field.set(bean, msgsHelper.with(tag));
-                msgsHelper.debug(Tag.Default, "@MsgsWired: %s注入Msgs(%s)成功", beanName, tag.name());
+                field.set(bean, msgsHelper.with(index));
+                msgsHelper.debug(Index.Default, "@MsgsWired: %s注入Msgs(%s)成功", beanName, index.name());
             }
         }
         return bean;

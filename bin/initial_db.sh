@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-cd `dirname $0`/..
+cd `dirname $0`
 
-mysql -uroot -p < config/dll.sql
+mysql -uroot -p < sqls/dll.sql

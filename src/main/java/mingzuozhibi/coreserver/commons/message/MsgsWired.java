@@ -1,6 +1,6 @@
 package mingzuozhibi.coreserver.commons.message;
 
-import mingzuozhibi.coreserver.commons.message.enums.Tag;
+import mingzuozhibi.coreserver.commons.message.enums.Index;
 
 import java.lang.annotation.*;
 
@@ -9,6 +9,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MsgsWired {
 
-    Tag value() default Tag.Default;
+    Index value() default Index.Default;
 
 }

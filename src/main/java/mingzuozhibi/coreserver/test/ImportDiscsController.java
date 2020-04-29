@@ -3,7 +3,7 @@ package mingzuozhibi.coreserver.test;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import mingzuozhibi.coreserver.modules.disc.Disc;
-import mingzuozhibi.coreserver.modules.disc.Disc.DiscType;
+import mingzuozhibi.coreserver.modules.disc.enums.DiscType;
 import mingzuozhibi.coreserver.modules.disc.DiscRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
