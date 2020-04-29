@@ -1,14 +1,15 @@
 package mingzuozhibi.coreserver.modules.group;
 
-import com.google.gson.JsonObject;
 import mingzuozhibi.coreserver.commons.base.BaseController;
+import mingzuozhibi.coreserver.commons.support.page.Page;
+import mingzuozhibi.coreserver.commons.support.page.PageParams;
+import mingzuozhibi.coreserver.modules.disc.support.DiscComparators;
+import mingzuozhibi.coreserver.modules.disc.support.PageUtils;
 import mingzuozhibi.coreserver.modules.group.enums.StatusType;
 import mingzuozhibi.coreserver.modules.group.enums.UpdateType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,10 +19,8 @@ public class GroupController extends BaseController {
     private GroupRepository groupRepository;
 
     @GetMapping("/api/groups")
-    public String findAll(@RequestParam(defaultValue = "1") int page,
-                          @RequestParam(defaultValue = "50") int pageSize) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
-        return objectResult(groupRepository.findAll(pageRequest));
+    public String findAll(PageParams params) {
+        return objectResult(groupRepository.findAll(params.toPageable()));
     }
 
     @GetMapping("/api/groups/{id}")
@@ -30,11 +29,12 @@ public class GroupController extends BaseController {
     }
 
     @GetMapping("/api/groups/{id}/with/discs")
-    public String findByIdWithDiscs(@PathVariable Long id) {
+    public String findByIdWithDiscs(@PathVariable Long id, @Page("rank") PageParams params) {
         return groupRepository.findById(id, group -> {
-            JsonObject root = GSON.toJsonTree(group).getAsJsonObject();
-            root.add("discs", GSON.toJsonTree(group.getDiscs()));
-            return objectResult(root);
+            var result = GSON.toJsonTree(group).getAsJsonObject();
+            var filter = PageUtils.filter(group.getDiscs(), params, DiscComparators::sorted);
+            result.add("discs", GSON.toJsonTree(filter));
+            return objectResult(result, buildPage(params, group.getDiscCount()));
         });
     }
 
