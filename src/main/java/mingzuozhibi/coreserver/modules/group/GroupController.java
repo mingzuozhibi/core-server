@@ -1,6 +1,8 @@
 package mingzuozhibi.coreserver.modules.group;
 
 import mingzuozhibi.coreserver.commons.base.BaseController;
+import mingzuozhibi.coreserver.modules.group.enums.StatusType;
+import mingzuozhibi.coreserver.modules.group.enums.UpdateType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,12 +34,12 @@ public class GroupController extends BaseController {
     }
 
     @GetMapping("/api/groups/find/status/{status}")
-    public String findByStatus(@PathVariable Group.StatusType status) {
+    public String findByStatus(@PathVariable StatusType status) {
         return objectResult(groupRepository.findByStatus(status));
     }
 
     @GetMapping("/api/groups/find/update/{update}")
-    public String findByStatus(@PathVariable Group.UpdateType update) {
+    public String findByStatus(@PathVariable UpdateType update) {
         return objectResult(groupRepository.findByUpdate(update));
     }
 

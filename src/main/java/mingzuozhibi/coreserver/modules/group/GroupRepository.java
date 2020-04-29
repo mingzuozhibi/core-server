@@ -1,6 +1,8 @@
 package mingzuozhibi.coreserver.modules.group;
 
 import mingzuozhibi.coreserver.commons.support.ReturnUtils;
+import mingzuozhibi.coreserver.modules.group.enums.StatusType;
+import mingzuozhibi.coreserver.modules.group.enums.UpdateType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,9 +13,9 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 
     Optional<Group> findByIndex(String index);
 
-    List<Group> findByStatus(Group.StatusType status);
+    List<Group> findByStatus(StatusType status);
 
-    List<Group> findByUpdate(Group.UpdateType update);
+    List<Group> findByUpdate(UpdateType update);
 
     default String findById(Long id, Function<Group, String> function) {
         Optional<Group> byId = findById(id);

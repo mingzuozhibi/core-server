@@ -6,6 +6,8 @@ import lombok.Setter;
 import mingzuozhibi.coreserver.commons.base.BaseModel;
 import mingzuozhibi.coreserver.commons.support.gson.GsonIgnore;
 import mingzuozhibi.coreserver.modules.disc.Disc;
+import mingzuozhibi.coreserver.modules.group.enums.StatusType;
+import mingzuozhibi.coreserver.modules.group.enums.UpdateType;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -19,14 +21,6 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 public class Group extends BaseModel {
-
-    public enum StatusType {
-        Current, History, Private
-    }
-
-    public enum UpdateType {
-        Always, Until, Never
-    }
 
     @Column(name = "index_", nullable = false, unique = true)
     private String index;
