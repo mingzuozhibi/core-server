@@ -1,5 +1,6 @@
 package mingzuozhibi.coreserver.modules.group;
 
+import com.google.gson.JsonObject;
 import mingzuozhibi.coreserver.commons.base.BaseController;
 import mingzuozhibi.coreserver.modules.group.enums.StatusType;
 import mingzuozhibi.coreserver.modules.group.enums.UpdateType;
@@ -26,6 +27,15 @@ public class GroupController extends BaseController {
     @GetMapping("/api/groups/{id}")
     public String findById(@PathVariable Long id) {
         return groupRepository.findById(id, this::objectResult);
+    }
+
+    @GetMapping("/api/groups/{id}/with/discs")
+    public String findByIdWithDiscs(@PathVariable Long id) {
+        return groupRepository.findById(id, group -> {
+            JsonObject root = GSON.toJsonTree(group).getAsJsonObject();
+            root.add("discs", GSON.toJsonTree(group.getDiscs()));
+            return objectResult(root);
+        });
     }
 
     @GetMapping("/api/groups/find/index/{index}")
