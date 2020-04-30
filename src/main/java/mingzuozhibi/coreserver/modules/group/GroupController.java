@@ -3,8 +3,7 @@ package mingzuozhibi.coreserver.modules.group;
 import mingzuozhibi.coreserver.commons.base.BaseController;
 import mingzuozhibi.coreserver.commons.support.page.Page;
 import mingzuozhibi.coreserver.commons.support.page.PageParams;
-import mingzuozhibi.coreserver.modules.disc.support.DiscComparators;
-import mingzuozhibi.coreserver.modules.disc.support.PageUtils;
+import mingzuozhibi.coreserver.modules.disc.support.DiscPageSupport;
 import mingzuozhibi.coreserver.modules.group.enums.StatusType;
 import mingzuozhibi.coreserver.modules.group.enums.UpdateType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,9 @@ public class GroupController extends BaseController {
 
     @Autowired
     private GroupRepository groupRepository;
+
+    @Autowired
+    private DiscPageSupport discPageSupport;
 
     @GetMapping("/api/groups")
     public String findAll(PageParams params) {
@@ -32,7 +34,7 @@ public class GroupController extends BaseController {
     public String findByIdWithDiscs(@PathVariable Long id, @Page("rank") PageParams params) {
         return groupRepository.findById(id, group -> {
             var result = GSON.toJsonTree(group).getAsJsonObject();
-            var filter = PageUtils.filter(group.getDiscs(), params, DiscComparators::sorted);
+            var filter = discPageSupport.filter(group.getDiscs(), params);
             result.add("discs", GSON.toJsonTree(filter));
             return objectResult(result, buildPage(params, group.getDiscCount()));
         });
