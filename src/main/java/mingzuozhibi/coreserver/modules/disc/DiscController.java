@@ -2,6 +2,8 @@ package mingzuozhibi.coreserver.modules.disc;
 
 import mingzuozhibi.coreserver.commons.base.BaseController;
 import mingzuozhibi.coreserver.commons.support.ReflectUtils;
+import mingzuozhibi.coreserver.commons.support.page.PageDefault;
+import mingzuozhibi.coreserver.commons.support.page.PageParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
@@ -19,10 +21,8 @@ public class DiscController extends BaseController {
     private DiscRepository discRepository;
 
     @GetMapping("/api/discs")
-    public String findAll(@RequestParam(defaultValue = "1") int page,
-                          @RequestParam(defaultValue = "50") int pageSize) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
-        return objectResult(discRepository.findAll(pageRequest));
+    public String findAll(PageParams params) {
+        return objectResult(discRepository.findAll(params.toPageable()));
     }
 
     @GetMapping("/api/discs/{id}")
@@ -37,32 +37,25 @@ public class DiscController extends BaseController {
 
     @GetMapping("/api/discs/find/title/contains/{title}")
     public String findByTitleContains(@PathVariable String title,
-                                      @RequestParam(defaultValue = "1") int page,
-                                      @RequestParam(defaultValue = "50") int pageSize) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
-        return objectResult(discRepository.findByTitleContains(title, pageRequest));
+                                      @PageDefault("title") PageParams params) {
+        return objectResult(discRepository.findByTitleContains(title, params.toPageable()));
     }
 
     @GetMapping("/api/discs/find/titleCN/contains/{titleCN}")
     public String findByTitleCNContains(@PathVariable String titleCN,
-                                        @RequestParam(defaultValue = "1") int page,
-                                        @RequestParam(defaultValue = "50") int pageSize) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
-        return objectResult(discRepository.findByTitleCNContains(titleCN, pageRequest));
+                                        @PageDefault("titleCN") PageParams params) {
+        return objectResult(discRepository.findByTitleCNContains(titleCN, params.toPageable()));
     }
 
     @GetMapping("/api/discs/find/title/specification/{title}")
-    public String findByTitleSpecification(@PathVariable String title,
-                                           @RequestParam(defaultValue = "1") int page,
-                                           @RequestParam(defaultValue = "50") int pageSize) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
+    public String findByTitleSpecification(@PathVariable String title, PageParams params) {
         Page<Disc> discs = discRepository.findAll((Specification<Disc>)
             (root, query, builder) -> query.where(
                 builder.or(
                     builder.like(root.get("title"), "%" + title + "%"),
                     builder.like(root.get("titleCN"), "%" + title + "%")
                 )
-            ).getRestriction(), pageRequest);
+            ).getRestriction(), params.toPageable());
         return objectResult(discs);
     }
 

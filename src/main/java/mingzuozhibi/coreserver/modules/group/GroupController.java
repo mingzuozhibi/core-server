@@ -1,7 +1,7 @@
 package mingzuozhibi.coreserver.modules.group;
 
 import mingzuozhibi.coreserver.commons.base.BaseController;
-import mingzuozhibi.coreserver.commons.support.page.Page;
+import mingzuozhibi.coreserver.commons.support.page.PageDefault;
 import mingzuozhibi.coreserver.commons.support.page.PageParams;
 import mingzuozhibi.coreserver.modules.disc.support.DiscPageSupport;
 import mingzuozhibi.coreserver.modules.group.enums.StatusType;
@@ -31,7 +31,8 @@ public class GroupController extends BaseController {
     }
 
     @GetMapping("/api/groups/{id}/with/discs")
-    public String findByIdWithDiscs(@PathVariable Long id, @Page("rank") PageParams params) {
+    public String findByIdWithDiscs(@PathVariable Long id,
+                                    @PageDefault("rank") PageParams params) {
         return groupRepository.findById(id, group -> {
             var result = GSON.toJsonTree(group).getAsJsonObject();
             var filter = discPageSupport.filter(group.getDiscs(), params);

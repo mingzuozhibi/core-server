@@ -27,21 +27,21 @@ public class PageParamsResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         var request = webRequest.getNativeRequest(HttpServletRequest.class);
         assert request != null;
-        var page = parameter.getParameterAnnotation(Page.class);
+        var page = parameter.getParameterAnnotation(PageDefault.class);
         var pageParams = new PageParams();
 
         Optional.ofNullable(request.getParameter("page"))
             .map(Integer::valueOf)
-            .or(() -> Optional.ofNullable(page).map(Page::page))
+            .or(() -> Optional.ofNullable(page).map(PageDefault::page))
             .ifPresent(pageParams::setPage);
 
         Optional.ofNullable(request.getParameter("size"))
             .map(Integer::valueOf)
-            .or(() -> Optional.ofNullable(page).map(Page::size))
+            .or(() -> Optional.ofNullable(page).map(PageDefault::size))
             .ifPresent(pageParams::setSize);
 
         var sorts = Optional.ofNullable(request.getParameterValues("sort"))
-            .or(() -> Optional.ofNullable(page).map(Page::sort))
+            .or(() -> Optional.ofNullable(page).map(PageDefault::sort))
             .orElse(new String[0]);
         var orders = Arrays.stream(sorts)
             .map(this::parseOrder)

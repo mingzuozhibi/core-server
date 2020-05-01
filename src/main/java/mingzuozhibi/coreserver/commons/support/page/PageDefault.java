@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 @Documented
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Page {
+public @interface PageDefault {
 
     @AliasFor("sort")
     String[] value() default {};
