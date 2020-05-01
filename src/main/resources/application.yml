@@ -18,9 +18,10 @@ spring:
       ddl-auto: update
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL57Dialect
+      hibernate.order_by.default_null_ordering: last
       hibernate.format_sql: true
     open-in-view: true
-    show-sql: false
+    show-sql: true
   session:
     store-type: jdbc
     jdbc:

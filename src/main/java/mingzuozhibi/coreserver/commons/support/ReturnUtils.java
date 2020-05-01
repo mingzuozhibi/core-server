@@ -3,6 +3,7 @@ package mingzuozhibi.coreserver.commons.support;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import mingzuozhibi.coreserver.commons.support.page.PageParams;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,6 +13,14 @@ import java.util.Objects;
 import static mingzuozhibi.coreserver.commons.support.gson.GsonHelper.GSON;
 
 public abstract class ReturnUtils {
+
+    public static String errorMessage(String error, JsonElement exception) {
+        JsonObject root = new JsonObject();
+        root.addProperty("success", false);
+        root.addProperty("message", error);
+        root.add("exception", exception);
+        return root.toString();
+    }
 
     public static String errorMessage(String error) {
         Objects.requireNonNull(error);
@@ -56,7 +65,7 @@ public abstract class ReturnUtils {
         return objectResult(GSON.toJsonTree(data), buildPage(page));
     }
 
-    private static String objectResult(JsonElement data, JsonElement page) {
+    public static String objectResult(JsonElement data, JsonElement page) {
         JsonObject root = new JsonObject();
         root.addProperty("success", true);
         root.add("data", data);
@@ -64,7 +73,7 @@ public abstract class ReturnUtils {
         return root.toString();
     }
 
-    private static JsonElement buildPage(Page<?> page) {
+    public static JsonElement buildPage(Page<?> page) {
         Pageable pageable = page.getPageable();
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber() + 1;
@@ -72,7 +81,11 @@ public abstract class ReturnUtils {
         return buildPage(currentPage, pageSize, totalElements);
     }
 
-    private static JsonElement buildPage(long currentPage, long pageSize, long totalElements) {
+    public static JsonElement buildPage(PageParams params, Integer totalElements) {
+        return buildPage(params.getPage(), params.getSize(), totalElements);
+    }
+
+    public static JsonElement buildPage(long currentPage, long pageSize, long totalElements) {
         JsonObject object = new JsonObject();
         object.addProperty("pageSize", pageSize);
         object.addProperty("currentPage", currentPage);

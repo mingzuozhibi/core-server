@@ -1,30 +1,17 @@
 package mingzuozhibi.coreserver.commons.base;
 
 import com.google.gson.Gson;
-import mingzuozhibi.coreserver.commons.support.gson.GsonHelper;
+import com.google.gson.JsonElement;
+import lombok.extern.slf4j.Slf4j;
 import mingzuozhibi.coreserver.commons.support.ReturnUtils;
+import mingzuozhibi.coreserver.commons.support.gson.GsonHelper;
+import mingzuozhibi.coreserver.commons.support.page.PageParams;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.LinkedList;
-import java.util.List;
-
+@Slf4j
 public class BaseController {
 
     protected Gson GSON = GsonHelper.GSON;
-
-    @ResponseBody
-    @ExceptionHandler
-    public String errorHandler(Exception e) {
-        List<String> errors = new LinkedList<>();
-        Throwable t = e;
-        while (t != null) {
-            errors.add(t.getClass().getSimpleName() + ": " + e.getMessage());
-            t = t.getCause();
-        }
-        return errorMessage(String.join("  ====>  ", errors));
-    }
 
     protected String errorMessage(String error) {
         return ReturnUtils.errorMessage(error);
@@ -48,6 +35,14 @@ public class BaseController {
 
     protected String objectResult(Page<?> page) {
         return ReturnUtils.objectResult(page);
+    }
+
+    public static String objectResult(JsonElement data, JsonElement page) {
+        return ReturnUtils.objectResult(data, page);
+    }
+
+    public static JsonElement buildPage(PageParams params, Integer totalElements) {
+        return ReturnUtils.buildPage(params, totalElements);
     }
 
 }

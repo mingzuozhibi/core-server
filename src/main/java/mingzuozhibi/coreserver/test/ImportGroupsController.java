@@ -39,7 +39,7 @@ public class ImportGroupsController {
             group.setIndex(rs.getString("key"));
             group.setTitle(rs.getString("title"));
             group.setUpdate(getUpdate(rs.getBoolean("enabled")));
-            group.setStatus(getStatus(rs.getString("view_type")));
+            group.setStatus(getStatus(rs.getInt("view_type")));
             group.setLastUpdate(getInstant(rs, "modify_time"));
             jdbcTemplate.query("select d.asin as asin from mzzb_pro.disc_group_discs map" +
                     " left join mzzb_pro.disc d on map.disc_id = d.id" +
@@ -56,8 +56,8 @@ public class ImportGroupsController {
         return count.get();
     }
 
-    private StatusType getStatus(String viewType) {
-        return viewType.equals("PublicList") ? StatusType.Current : StatusType.Private;
+    private StatusType getStatus(int viewType) {
+        return viewType == 2 ? StatusType.Private : StatusType.Current;
     }
 
     private UpdateType getUpdate(boolean enabled) {
