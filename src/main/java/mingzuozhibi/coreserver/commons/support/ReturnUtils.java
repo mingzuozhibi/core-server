@@ -14,6 +14,14 @@ import static mingzuozhibi.coreserver.commons.support.gson.GsonHelper.GSON;
 
 public abstract class ReturnUtils {
 
+    public static String errorMessage(String error, JsonElement exception) {
+        JsonObject root = new JsonObject();
+        root.addProperty("success", false);
+        root.addProperty("message", error);
+        root.add("exception", exception);
+        return root.toString();
+    }
+
     public static String errorMessage(String error) {
         Objects.requireNonNull(error);
         JsonObject root = new JsonObject();
