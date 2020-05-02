@@ -36,10 +36,10 @@ public class ImportDiscsController {
             disc.setTitle(rs.getString("title"));
             disc.setTitleCN(Strings.emptyToNull(rs.getString("title_pc")));
             disc.setThisRank(getInterger(rs, "this_rank"));
-            disc.setThisRank(getInterger(rs, "prev_rank"));
-            disc.setThisRank(getInterger(rs, "today_pt"));
-            disc.setThisRank(getInterger(rs, "total_pt"));
-            disc.setThisRank(getInterger(rs, "guess_pt"));
+            disc.setPrevRank(getInterger(rs, "prev_rank"));
+            disc.setAddPoint(getInterger(rs, "today_pt"));
+            disc.setSumPoint(getInterger(rs, "total_pt"));
+            disc.setPowPoint(getInterger(rs, "guess_pt"));
             disc.setCreateOn(getInstant(rs, "create_time"));
             disc.setUpdateOn(getInstant(rs, "update_time"));
             disc.setModifyOn(getInstant(rs, "modify_time"));
@@ -56,7 +56,10 @@ public class ImportDiscsController {
     }
 
     private Integer getInterger(ResultSet rs, String name) throws SQLException {
-        return rs.getObject(name) == null ? null : rs.getInt(name);
+        return Optional.ofNullable(rs.getObject(name))
+            .map(o -> (Integer) o)
+            .filter(i -> i != 0)
+            .orElse(null);
     }
 
     private DiscType getDiscType(int type) {
