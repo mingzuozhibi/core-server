@@ -5,6 +5,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import mingzuozhibi.coreserver.commons.support.Formatters;
+import mingzuozhibi.coreserver.modules.disc.Disc;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -12,18 +13,23 @@ import java.time.LocalDate;
 
 public abstract class GsonHelper {
 
-    public static final Gson GSON = createGson();
+    public static Gson GSON;
 
-    public static Gson createGson() {
-        GsonBuilder gson = new GsonBuilder();
-        handleGsonIgnore(gson);
-        registerInstant(gson);
-        registerLocalDate(gson);
-        return gson.create();
+    private static Gson origin;
+
+    static {
+        GsonBuilder builder = new GsonBuilder();
+        handleGsonIgnore(builder);
+        registerInstant(builder);
+        registerLocalDate(builder);
+        origin = builder.create();
+
+        registerDisc(builder);
+        GSON = builder.create();
     }
 
-    private static void handleGsonIgnore(GsonBuilder gson) {
-        gson.setExclusionStrategies(new ExclusionStrategy() {
+    private static void handleGsonIgnore(GsonBuilder builder) {
+        builder.setExclusionStrategies(new ExclusionStrategy() {
             @Override
             public boolean shouldSkipField(FieldAttributes f) {
                 return f.getAnnotation(GsonIgnore.class) != null;
@@ -36,8 +42,8 @@ public abstract class GsonHelper {
         });
     }
 
-    private static void registerInstant(GsonBuilder gson) {
-        gson.registerTypeAdapter(Instant.class, new TypeAdapter<Instant>() {
+    private static void registerInstant(GsonBuilder builder) {
+        builder.registerTypeAdapter(Instant.class, new TypeAdapter<Instant>() {
             @Override
             public void write(JsonWriter writer, Instant instant) throws IOException {
                 if (instant != null) {
@@ -59,8 +65,8 @@ public abstract class GsonHelper {
         });
     }
 
-    private static void registerLocalDate(GsonBuilder gson) {
-        gson.registerTypeAdapter(LocalDate.class, new TypeAdapter<LocalDate>() {
+    private static void registerLocalDate(GsonBuilder builder) {
+        builder.registerTypeAdapter(LocalDate.class, new TypeAdapter<LocalDate>() {
             @Override
             public void write(JsonWriter writer, LocalDate date) throws IOException {
                 if (date != null) {
@@ -79,6 +85,14 @@ public abstract class GsonHelper {
                     return LocalDate.parse(reader.nextString(), Formatters.ISO_DATE_FORMATTER);
                 }
             }
+        });
+    }
+
+    private static void registerDisc(GsonBuilder builder) {
+        builder.registerTypeAdapter(Disc.class, (JsonSerializer<Disc>) (disc, type, context) -> {
+            JsonObject object = origin.toJsonTree(disc).getAsJsonObject();
+            object.addProperty("releaseDays", disc.findReleaseDays());
+            return object;
         });
     }
 
