@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
+import static mingzuozhibi.coreserver.commons.gson.GSONs.GSON;
 import static mingzuozhibi.coreserver.commons.support.QueueKeys.JMS_LOG_KEY;
-import static mingzuozhibi.coreserver.commons.support.gson.GsonHelper.GSON;
 
 @Slf4j
 @Component

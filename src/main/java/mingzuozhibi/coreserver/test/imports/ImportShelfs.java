@@ -16,7 +16,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Instant;
 
-import static mingzuozhibi.coreserver.commons.support.gson.GsonHelper.GSON;
+import static mingzuozhibi.coreserver.commons.gson.GSONs.GSON;
 
 @RestController
 public class ImportShelfs {

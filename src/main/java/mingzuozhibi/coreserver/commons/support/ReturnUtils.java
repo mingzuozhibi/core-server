@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Objects;
 
-import static mingzuozhibi.coreserver.commons.support.gson.GsonHelper.GSON;
+import static mingzuozhibi.coreserver.commons.gson.GSONs.GSON;
 
 public abstract class ReturnUtils {
 

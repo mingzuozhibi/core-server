@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mingzuozhibi.coreserver.commons.base.BaseModel;
-import mingzuozhibi.coreserver.commons.support.gson.GsonIgnore;
+import mingzuozhibi.coreserver.commons.gson.NotGson;
 import mingzuozhibi.coreserver.modules.user.enums.Role;
 
 import javax.persistence.*;
@@ -24,7 +24,7 @@ public class User extends BaseModel {
     @Column(length = 32, nullable = false, unique = true)
     private String username;
 
-    @GsonIgnore
+    @NotGson
     @Column(length = 32, nullable = false)
     private String password;
 

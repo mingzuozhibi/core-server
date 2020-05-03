@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mingzuozhibi.coreserver.commons.base.BaseModel;
-import mingzuozhibi.coreserver.commons.support.gson.GsonIgnore;
+import mingzuozhibi.coreserver.commons.gson.NotGson;
 import mingzuozhibi.coreserver.modules.disc.Disc;
 import mingzuozhibi.coreserver.modules.group.enums.StatusType;
 import mingzuozhibi.coreserver.modules.group.enums.UpdateType;
@@ -45,7 +45,7 @@ public class Group extends BaseModel {
     @Column(name = "disc_count", nullable = false)
     private Integer discCount;
 
-    @GsonIgnore
+    @NotGson
     @ManyToMany
     @JoinTable(name = "group_discs",
         joinColumns = @JoinColumn(name = "id"),
