@@ -1,17 +1,13 @@
 package mingzuozhibi.coreserver.commons.base;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import lombok.extern.slf4j.Slf4j;
 import mingzuozhibi.coreserver.commons.support.ReturnUtils;
-import mingzuozhibi.coreserver.commons.support.gson.GsonHelper;
 import mingzuozhibi.coreserver.commons.support.page.PageParams;
 import org.springframework.data.domain.Page;
 
 @Slf4j
 public class BaseController {
-
-    protected Gson GSON = GsonHelper.GSON;
 
     protected String errorMessage(String error) {
         return ReturnUtils.errorMessage(error);

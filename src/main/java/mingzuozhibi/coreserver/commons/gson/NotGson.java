@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.commons.support.gson;
+package mingzuozhibi.coreserver.commons.gson;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -11,5 +11,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Retention(RUNTIME)
 @Target({METHOD, FIELD})
-public @interface GsonIgnore {
+public @interface NotGson {
 }

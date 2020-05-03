@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.Instant;
 import java.util.Set;
 
+import static mingzuozhibi.coreserver.commons.gson.GSONs.GSON;
+
 @RestController
 public class MessageController extends BaseController {
 
