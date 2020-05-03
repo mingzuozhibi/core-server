@@ -1,6 +1,7 @@
 package mingzuozhibi.coreserver.modules.shelf;
 
 import mingzuozhibi.coreserver.commons.base.BaseController;
+import mingzuozhibi.coreserver.commons.support.page.PageDefault;
 import mingzuozhibi.coreserver.commons.support.page.PageParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,7 @@ public class ShelfController extends BaseController {
     private ShelfRepository shelfRepository;
 
     @GetMapping("/api/shelfs")
-    public String findAll(PageParams params) {
+    public String findAll(@PageDefault(size = 20) PageParams params) {
         return objectResult(shelfRepository.findAll(params.toPageable()));
     }
 
