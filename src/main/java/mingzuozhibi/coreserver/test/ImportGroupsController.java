@@ -39,8 +39,10 @@ public class ImportGroupsController {
             group.setIndex(rs.getString("key"));
             group.setTitle(rs.getString("title"));
             group.setUpdate(getUpdate(rs.getBoolean("enabled")));
-            group.setStatus(getStatus(rs.getInt("view_type")));
-            group.setLastUpdate(getInstant(rs, "modify_time"));
+            group.setStatus(getStatus(rs.getInt("view_type"), group.getUpdate()));
+            if (group.getStatus() == StatusType.Current) {
+                group.setLastUpdate(getInstant(rs, "modify_time"));
+            }
             jdbcTemplate.query("select d.asin as asin from mzzb_pro.disc_group_discs map" +
                     " left join mzzb_pro.disc d on map.disc_id = d.id" +
                     " where map.disc_group_id = ?",
@@ -56,12 +58,18 @@ public class ImportGroupsController {
         return count.get();
     }
 
-    private StatusType getStatus(int viewType) {
-        return viewType == 2 ? StatusType.Private : StatusType.Current;
-    }
-
     private UpdateType getUpdate(boolean enabled) {
         return enabled ? UpdateType.Always : UpdateType.Never;
+    }
+
+    private StatusType getStatus(int viewType, UpdateType update) {
+        if (viewType == 2) {
+            return StatusType.Private;
+        }
+        if (update == UpdateType.Never) {
+            return StatusType.History;
+        }
+        return StatusType.Current;
     }
 
     private Instant getInstant(ResultSet rs, String name) throws SQLException {

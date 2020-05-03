@@ -2,8 +2,9 @@ package mingzuozhibi.coreserver.modules.message;
 
 import mingzuozhibi.coreserver.commons.base.BaseController;
 import mingzuozhibi.coreserver.commons.support.QueueKeys;
+import mingzuozhibi.coreserver.commons.support.page.PageParams;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +22,9 @@ public class MessageController extends BaseController {
     private MessageRepository messageRepository;
 
     @GetMapping("/api/messages/{index}")
-    public String findByIndex(@PathVariable String index,
-                              @RequestParam(required = false) Set<String> levels,
-                              @RequestParam(defaultValue = "1") int page,
-                              @RequestParam(defaultValue = "50") int pageSize) {
-        PageRequest pageable = PageRequest.of(page - 1, pageSize);
+    public String findByIndex(@PathVariable String index, PageParams params,
+                              @RequestParam(required = false) Set<String> levels) {
+        Pageable pageable = params.toPageable();
         if (levels == null || levels.isEmpty()) {
             return objectResult(messageRepository.findByIndex(index, pageable));
         } else {

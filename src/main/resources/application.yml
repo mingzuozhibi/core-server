@@ -28,3 +28,9 @@ spring:
       initialize-schema: always
       table-name: SPRING_SESSION
       schema: classpath:org/springframework/session/jdbc/schema-mysql.sql
+
+---
+spring:
+  profiles: pro
+  jpa:
+    show-sql: false

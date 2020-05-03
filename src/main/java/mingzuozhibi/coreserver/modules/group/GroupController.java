@@ -30,10 +30,10 @@ public class GroupController extends BaseController {
         return groupRepository.findById(id, this::objectResult);
     }
 
-    @GetMapping("/api/groups/{id}/with/discs")
-    public String findByIdWithDiscs(@PathVariable Long id,
+    @GetMapping("/api/groups/find/index/{index}/with/discs")
+    public String findByIdWithDiscs(@PathVariable String index,
                                     @PageDefault("rank") PageParams params) {
-        return groupRepository.findById(id, group -> {
+        return groupRepository.findByIndex(index, group -> {
             var result = GSON.toJsonTree(group).getAsJsonObject();
             var filter = discPageSupport.filter(group.getDiscs(), params);
             result.add("discs", GSON.toJsonTree(filter));

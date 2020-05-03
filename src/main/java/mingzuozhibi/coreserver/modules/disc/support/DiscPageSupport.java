@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public class DiscPageSupport extends PageSupport<Disc> {
 
     public DiscPageSupport() {
-        registSort("title", Disc::autoTitle, String::compareTo, false);
+        registSort("title", Disc::findTitle, String::compareTo, false);
         registSort("rank", Disc::getThisRank, Integer::compareTo, true);
         registSort("date", Disc::getReleaseDate, LocalDate::compareTo, true);
     }

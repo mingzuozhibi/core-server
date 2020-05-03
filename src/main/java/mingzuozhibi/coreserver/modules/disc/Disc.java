@@ -1,12 +1,16 @@
 package mingzuozhibi.coreserver.modules.disc;
 
+import com.google.common.base.Strings;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mingzuozhibi.coreserver.commons.base.BaseModel;
 import mingzuozhibi.coreserver.modules.disc.enums.DiscType;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -57,9 +61,14 @@ public class Disc extends BaseModel {
     @Column
     private LocalDate releaseDate;
 
-    @Transient
-    public String autoTitle() {
-        return Optional.ofNullable(titleCN).orElse(title);
+    public String findTitle() {
+        return Optional.ofNullable(Strings.emptyToNull(titleCN)).orElse(title);
+    }
+
+    public Long findReleaseDays() {
+        return Optional.ofNullable(releaseDate)
+            .map(date -> date.toEpochDay() - LocalDate.now().toEpochDay())
+            .orElse(null);
     }
 
 }
