@@ -88,6 +88,57 @@ CREATE TABLE `group_discs` (
   CONSTRAINT `FKbjop9pwmyhvs40kwsqqdv82h9` FOREIGN KEY (`disc_id`) REFERENCES `disc` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `record_date` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `version` bigint(20) DEFAULT NULL,
+  `date` date NOT NULL,
+  `add_point` double DEFAULT NULL,
+  `sum_point` double DEFAULT NULL,
+  `pow_point` double DEFAULT NULL,
+  `aver_rank` double DEFAULT NULL,
+  `disc_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK67ohgfmbfj54anymgbn7ie4t5` (`disc_id`),
+  CONSTRAINT `FK67ohgfmbfj54anymgbn7ie4t5` FOREIGN KEY (`disc_id`) REFERENCES `disc` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+
+CREATE TABLE `record_hour` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `version` bigint(20) DEFAULT NULL,
+  `date` date NOT NULL,
+  `add_point` double DEFAULT NULL,
+  `sum_point` double DEFAULT NULL,
+  `pow_point` double DEFAULT NULL,
+  `rank00` int(11) DEFAULT NULL,
+  `rank01` int(11) DEFAULT NULL,
+  `rank02` int(11) DEFAULT NULL,
+  `rank03` int(11) DEFAULT NULL,
+  `rank04` int(11) DEFAULT NULL,
+  `rank05` int(11) DEFAULT NULL,
+  `rank06` int(11) DEFAULT NULL,
+  `rank07` int(11) DEFAULT NULL,
+  `rank08` int(11) DEFAULT NULL,
+  `rank09` int(11) DEFAULT NULL,
+  `rank10` int(11) DEFAULT NULL,
+  `rank11` int(11) DEFAULT NULL,
+  `rank12` int(11) DEFAULT NULL,
+  `rank13` int(11) DEFAULT NULL,
+  `rank14` int(11) DEFAULT NULL,
+  `rank15` int(11) DEFAULT NULL,
+  `rank16` int(11) DEFAULT NULL,
+  `rank17` int(11) DEFAULT NULL,
+  `rank18` int(11) DEFAULT NULL,
+  `rank19` int(11) DEFAULT NULL,
+  `rank20` int(11) DEFAULT NULL,
+  `rank21` int(11) DEFAULT NULL,
+  `rank22` int(11) DEFAULT NULL,
+  `rank23` int(11) DEFAULT NULL,
+  `disc_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKdwsifsykvmjtu7x1lfsis0trl` (`disc_id`),
+  CONSTRAINT `FKdwsifsykvmjtu7x1lfsis0trl` FOREIGN KEY (`disc_id`) REFERENCES `disc` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+
 CREATE TABLE `SPRING_SESSION` (
   `PRIMARY_ID` char(36) NOT NULL,
   `SESSION_ID` char(36) NOT NULL,
