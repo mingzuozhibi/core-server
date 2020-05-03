@@ -1,10 +1,11 @@
-package mingzuozhibi.coreserver.modules.record;
+package mingzuozhibi.coreserver.modules.record.date;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mingzuozhibi.coreserver.commons.base.BaseModel;
 import mingzuozhibi.coreserver.modules.disc.Disc;
+import mingzuozhibi.coreserver.modules.record.Record;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

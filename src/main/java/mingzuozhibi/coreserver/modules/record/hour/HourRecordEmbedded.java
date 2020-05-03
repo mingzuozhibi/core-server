@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.modules.record;
+package mingzuozhibi.coreserver.modules.record.hour;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

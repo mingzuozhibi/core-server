@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.modules.record;
+package mingzuozhibi.coreserver.modules.record.date;
 
 import mingzuozhibi.coreserver.modules.disc.Disc;
 import org.springframework.data.jpa.repository.JpaRepository;
