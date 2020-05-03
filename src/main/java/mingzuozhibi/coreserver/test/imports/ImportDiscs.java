@@ -1,4 +1,4 @@
-package mingzuozhibi.coreserver.test;
+package mingzuozhibi.coreserver.test.imports;
 
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @RestController
-public class ImportDiscsController {
+public class ImportDiscs {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
