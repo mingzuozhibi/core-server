@@ -1,5 +1,6 @@
 package mingzuozhibi.coreserver.modules.disc;
 
+import com.google.common.base.Strings;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -61,7 +62,7 @@ public class Disc extends BaseModel {
     private LocalDate releaseDate;
 
     public String findTitle() {
-        return Optional.ofNullable(titleCN).orElse(title);
+        return Optional.ofNullable(Strings.emptyToNull(titleCN)).orElse(title);
     }
 
     public Long findReleaseDays() {
