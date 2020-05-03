@@ -20,6 +20,9 @@ public class DiscController extends BaseController {
     @Autowired
     private DiscRepository discRepository;
 
+    @Autowired
+    private ConversionService conversionService;
+
     @GetMapping("/api/discs")
     public String findAll(PageParams params) {
         return objectResult(discRepository.findAll(params.toPageable()));
@@ -58,9 +61,6 @@ public class DiscController extends BaseController {
             ).getRestriction(), params.toPageable());
         return objectResult(discs);
     }
-
-    @Autowired
-    private ConversionService conversionService;
 
     @GetMapping("/api/discs/find/specification/{key}/{value}")
     public String findBySpecification(@PathVariable String key,
