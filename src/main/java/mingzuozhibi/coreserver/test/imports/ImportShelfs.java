@@ -36,7 +36,6 @@ public class ImportShelfs {
         HttpRequest httpRequest = HttpRequest.newBuilder()
             .uri(URI.create(String.format("http://%s:9000/discShelfs?pageSize=100", bcloudIp)))
             .build();
-
         HttpResponse<String> httpResponse = HttpClient.newHttpClient()
             .send(httpRequest, HttpResponse.BodyHandlers.ofString());
         if (httpResponse.statusCode() == 200) {
@@ -49,15 +48,15 @@ public class ImportShelfs {
                     String type = row.get("type").getAsString();
                     String title = row.get("title").getAsString();
                     Instant createOn = Instant.ofEpochMilli(row.get("createOn").getAsLong());
+
                     Shelf shelf = new Shelf(asin, type, title);
                     shelf.setCreateOn(createOn);
-                    discRepository.findByAsin(asin).ifPresent(shelf::setDisc);
+                    discRepository.findByAsin(asin).ifPresent(disc -> shelf.setDiscId(disc.getId()));
                     shelfRepository.save(shelf);
                 });
                 return shelfRepository.count();
             }
         }
-
         return -1;
     }
 

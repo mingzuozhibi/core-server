@@ -4,12 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mingzuozhibi.coreserver.commons.base.BaseModel;
-import mingzuozhibi.coreserver.modules.disc.Disc;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
 import java.time.Instant;
 
 @Entity(name = "disc_shelf")
@@ -17,6 +14,9 @@ import java.time.Instant;
 @Getter
 @NoArgsConstructor
 public class Shelf extends BaseModel {
+
+    @Column
+    private Long discId;
 
     @Column(length = 20, nullable = false, unique = true)
     private String asin;
@@ -29,9 +29,6 @@ public class Shelf extends BaseModel {
 
     @Column(nullable = false)
     private Instant createOn;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    private Disc disc;
 
     public Shelf(String asin, String type, String title) {
         this.asin = asin;
