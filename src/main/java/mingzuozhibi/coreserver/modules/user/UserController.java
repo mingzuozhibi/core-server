@@ -5,6 +5,8 @@ import mingzuozhibi.coreserver.commons.base.BaseController;
 import mingzuozhibi.coreserver.commons.message.Msgs;
 import mingzuozhibi.coreserver.commons.message.MsgsWired;
 import mingzuozhibi.coreserver.commons.message.enums.Index;
+import mingzuozhibi.coreserver.commons.support.page.PageDefault;
+import mingzuozhibi.coreserver.commons.support.page.PageParams;
 import mingzuozhibi.coreserver.modules.user.enums.Role;
 import mingzuozhibi.coreserver.security.auth.SessionManager;
 import mingzuozhibi.coreserver.security.support.SecurityUtils;
@@ -32,10 +34,8 @@ public class UserController extends BaseController {
     @Transactional
     @GetMapping("/api/users")
     @PreAuthorize("hasRole('UserAdmin')")
-    public String findAll(@RequestParam(defaultValue = "1") int page,
-                          @RequestParam(defaultValue = "20") int pageSize) {
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
-        return objectResult(userRepository.findAll(pageRequest));
+    public String findAll(@PageDefault(size = 20) PageParams params) {
+        return objectResult(userRepository.findAll(params.toPageable()));
     }
 
     @Transactional
