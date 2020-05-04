@@ -6,6 +6,7 @@ import mingzuozhibi.coreserver.commons.message.enums.Index;
 import mingzuozhibi.coreserver.commons.message.enums.Level;
 import mingzuozhibi.coreserver.commons.message.support.MsgsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,13 +25,18 @@ public class TestMsgsController extends BaseController {
     }
 
     @PostMapping("/test/msgs")
-    public void sendMsgs(@RequestBody MessageForm form) {
+    public void testSendMsgs(@RequestBody MessageForm form) {
         msgsHelper.sendMsg(form.index, form.level, form.message);
     }
 
-    @PostMapping("/test/msgs/debug")
-    public void sendMsgsDebug(@RequestBody MessageForm form) {
-        msgsHelper.sendMsg(Index.Test, Level.DEBUG, form.message);
+    @GetMapping("/test/msgs/levels")
+    public void testMsgsLevels() {
+        msgsHelper.sendMsg(Index.Test, Level.DEBUG, "Test Message");
+        msgsHelper.sendMsg(Index.Test, Level.INFO, "Test Message");
+        msgsHelper.sendMsg(Index.Test, Level.NOTIFY, "Test Message");
+        msgsHelper.sendMsg(Index.Test, Level.SUCCESS, "Test Message");
+        msgsHelper.sendMsg(Index.Test, Level.WARN, "Test Message");
+        msgsHelper.sendMsg(Index.Test, Level.ERROR, "Test Message");
     }
 
 }
