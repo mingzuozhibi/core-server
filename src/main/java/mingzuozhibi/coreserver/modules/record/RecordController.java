@@ -5,6 +5,8 @@ import lombok.Setter;
 import mingzuozhibi.coreserver.commons.base.BaseController;
 import mingzuozhibi.coreserver.modules.disc.Disc;
 import mingzuozhibi.coreserver.modules.disc.DiscRepository;
+import mingzuozhibi.coreserver.modules.record.date.DateRecordRepository;
+import mingzuozhibi.coreserver.modules.record.hour.HourRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,49 +29,49 @@ public class RecordController extends BaseController {
     @Autowired
     private DiscRepository discRepository;
 
+    @GetMapping("/api/records/find/disc/{id}")
+    public String findByDisc(@PathVariable Long id) {
+        return discRepository.findById(id, disc -> {
+            DiscVo vo = new DiscVo(disc);
+            hourRecordRepository.findByDiscAndDateNow(disc).ifPresent(vo::add);
+            dateRecordRepository.findByDiscOrderByDateDesc(disc).forEach(vo::add);
+            return objectResult(vo);
+        });
+    }
+
     @Getter
-    private static class Result {
+    private static class DiscVo {
         private String title;
         private LocalDate release;
-        private List<Record_> records = new LinkedList<>();
+        private List<RecordVo> records = new LinkedList<>();
         private AtomicLong count = new AtomicLong();
 
-        public Result(Disc disc) {
+        public DiscVo(Disc disc) {
             this.title = disc.findTitle();
             this.release = disc.getReleaseDate();
         }
 
         public void add(Record record) {
-            Record_ record_ = new Record_();
-            record_.setId(count.incrementAndGet());
-            record_.setDate(record.getDate());
-            record_.setAddPoint(record.getAddPoint());
-            record_.setSumPoint(record.getSumPoint());
-            record_.setPowPoint(record.getPowPoint());
-            record_.setAverRank(record.getAverRank());
-            records.add(record_);
+            RecordVo vo = new RecordVo();
+            vo.setId(count.incrementAndGet());
+            vo.setDate(record.getDate());
+            vo.setAddPoint(record.getAddPoint());
+            vo.setSumPoint(record.getSumPoint());
+            vo.setPowPoint(record.getPowPoint());
+            vo.setAverRank(record.getAverRank());
+            records.add(vo);
         }
-    }
 
-    @Setter
-    @Getter
-    private static class Record_ {
-        private Long id;
-        private LocalDate date;
-        private Double addPoint;
-        private Double sumPoint;
-        private Double powPoint;
-        private Double averRank;
-    }
-
-    @GetMapping("/api/records/find/disc/{id}")
-    public String findByDisc(@PathVariable Long id) {
-        return discRepository.findById(id, disc -> {
-            Result result = new Result(disc);
-            hourRecordRepository.findByDiscAndDateNow(disc).ifPresent(result::add);
-            dateRecordRepository.findByDiscOrderByDateDesc(disc).forEach(result::add);
-            return objectResult(result);
-        });
+        @Setter
+        @Getter
+        private static class RecordVo {
+            private Long id;
+            private LocalDate date;
+            private Double addPoint;
+            private Double sumPoint;
+            private Double powPoint;
+            private Double averRank;
+        }
     }
 
 }

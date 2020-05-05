@@ -13,6 +13,12 @@ LogFile="target/log.log"
 JvmParams="-Xms64m -Xmx128m -XX:MaxMetaspaceSize=1024m"
 JarParams="--app.name=${AppName} --spring.profiles.active=pro"
 
+if ! type "mvn" > /dev/null; then
+  MVN_CMD=./mvnw
+else
+  MVN_CMD=mvn
+fi
+
 cd ${AppHome}
 
 ##
@@ -65,7 +71,7 @@ do_fetch() {
 
 do_build() {
   echo "正在构建应用"
-  echo_cmd "./mvnw clean package"
+  echo_cmd "$MVN_CMD clean package"
 }
 
 try_build() {

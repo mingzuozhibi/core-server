@@ -7,11 +7,17 @@ version="$1"
 version_text="v$1"
 option2="$2"
 
+if ! type "mvn" > /dev/null; then
+  MVN_CMD=./mvnw
+else
+  MVN_CMD=mvn
+fi
+
 CallRelease() {
     git flow release start $version_text
 
-    ./mvnw versions:set "-DnewVersion=$version"
-    ./mvnw versions:commit
+    $MVN_CMD versions:set "-DnewVersion=$version"
+    $MVN_CMD versions:commit
 
     git add pom.xml
     git commit -m "chore: set version to $version"

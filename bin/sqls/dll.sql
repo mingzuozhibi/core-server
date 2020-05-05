@@ -100,7 +100,7 @@ CREATE TABLE `record_date` (
   PRIMARY KEY (`id`),
   KEY `FK67ohgfmbfj54anymgbn7ie4t5` (`disc_id`),
   CONSTRAINT `FK67ohgfmbfj54anymgbn7ie4t5` FOREIGN KEY (`disc_id`) REFERENCES `disc` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `record_hour` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -137,7 +137,7 @@ CREATE TABLE `record_hour` (
   PRIMARY KEY (`id`),
   KEY `FKdwsifsykvmjtu7x1lfsis0trl` (`disc_id`),
   CONSTRAINT `FKdwsifsykvmjtu7x1lfsis0trl` FOREIGN KEY (`disc_id`) REFERENCES `disc` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `SPRING_SESSION` (
   `PRIMARY_ID` char(36) NOT NULL,

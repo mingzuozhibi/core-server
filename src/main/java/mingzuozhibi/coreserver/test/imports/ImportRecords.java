@@ -1,10 +1,10 @@
 package mingzuozhibi.coreserver.test.imports;
 
 import mingzuozhibi.coreserver.modules.disc.DiscRepository;
-import mingzuozhibi.coreserver.modules.record.DateRecord;
-import mingzuozhibi.coreserver.modules.record.DateRecordRepository;
-import mingzuozhibi.coreserver.modules.record.HourRecord;
-import mingzuozhibi.coreserver.modules.record.HourRecordRepository;
+import mingzuozhibi.coreserver.modules.record.date.DateRecord;
+import mingzuozhibi.coreserver.modules.record.date.DateRecordRepository;
+import mingzuozhibi.coreserver.modules.record.hour.HourRecord;
+import mingzuozhibi.coreserver.modules.record.hour.HourRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
