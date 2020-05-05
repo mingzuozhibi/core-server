@@ -1,5 +1,6 @@
 package mingzuozhibi.coreserver.commons.config;
 
+import lombok.extern.slf4j.Slf4j;
 import mingzuozhibi.coreserver.commons.support.Formatters;
 import mingzuozhibi.coreserver.commons.support.ReturnUtils;
 import mingzuozhibi.coreserver.commons.support.page.PageParamsResolver;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import static mingzuozhibi.coreserver.commons.gson.GSONs.GSON;
 
+@Slf4j
 @Configuration
 @RestControllerAdvice
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -28,6 +30,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         String klass = e.getClass().getName();
         String message = e.getMessage();
         String error = String.format("%s '%s' %n%s: %s", method, uri, klass, message);
+        log.debug(error, e);
         return ReturnUtils.errorMessage(error, GSON.toJsonTree(e));
     }
 
