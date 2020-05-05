@@ -1,20 +1,23 @@
 #!/usr/bin/env bash
 
-# 跳转到项目根目录
-cd `dirname $0`/..
+##
+# 环境准备
+##
 
-version="$1"
-version_text="v$1"
-option2="$2"
-
-if ! type "mvn" > /dev/null; then
+if ! type mvn >/dev/null 2>&1; then
   MVN_CMD=./mvnw
 else
   MVN_CMD=mvn
 fi
 
+cd `dirname $0`/..
+
+tagtxt="v$1"
+version="$1"
+option2="$2"
+
 CallRelease() {
-    git flow release start $version_text
+    git flow release start $tagtxt
 
     $MVN_CMD versions:set "-DnewVersion=$version"
     $MVN_CMD versions:commit
@@ -22,7 +25,7 @@ CallRelease() {
     git add pom.xml
     git commit -m "chore: set version to $version"
 
-    git flow release finish $version_text
+    git flow release finish $tagtxt
 }
 
 CallPushAll() {
@@ -32,8 +35,8 @@ CallPushAll() {
   echo "开始推送分支 master"
   git push origin master
 
-  echo "开始推送标签 $version_text"
-  git push origin $version_text
+  echo "开始推送标签 $tagtxt"
+  git push origin $tagtxt
 }
 
 if [[ $option2 == "-a" ]]; then

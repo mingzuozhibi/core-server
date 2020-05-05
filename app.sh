@@ -4,20 +4,20 @@
 # 环境准备
 ##
 
+if ! type mvn >/dev/null 2>&1; then
+  MVN_CMD=./mvnw
+else
+  MVN_CMD=mvn
+fi
+
 AppHome=$(cd `dirname $0`; pwd)
 AppName=${AppHome##*/}
 
 StdFile="target/std.log"
 LogFile="target/log.log"
 
-JvmParams="-Xms64m -Xmx128m -XX:MaxMetaspaceSize=1024m"
+JvmParams="-Xms64m -Xmx128m -XX:MaxMetaspaceSize=128m"
 JarParams="--app.name=${AppName} --spring.profiles.active=pro"
-
-if ! type "mvn" > /dev/null; then
-  MVN_CMD=./mvnw
-else
-  MVN_CMD=mvn
-fi
 
 cd ${AppHome}
 
