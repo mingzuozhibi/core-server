@@ -52,6 +52,7 @@
 
     <logger name="mingzuozhibi" level="DEBUG"/>
     <logger name="org.springframework" level="WARN"/>
-    <logger name="cdp4j.flow" level="WARN"/>
+    <logger name="org.apache.catalina.core.ContainerBase" level="OFF"/>
+    <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="OFF"/>
 
 </configuration>

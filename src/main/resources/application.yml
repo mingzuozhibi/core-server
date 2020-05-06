@@ -21,7 +21,7 @@ spring:
       hibernate.order_by.default_null_ordering: last
       hibernate.format_sql: true
     open-in-view: true
-    show-sql: true
+    show-sql: false
   session:
     store-type: jdbc
     jdbc:

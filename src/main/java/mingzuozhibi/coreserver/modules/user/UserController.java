@@ -30,20 +30,20 @@ public class UserController extends BaseController {
     @MsgsWired(Index.User)
     private Msgs msgs;
 
-    @Transactional(readOnly = true)
     @GetMapping("/api/users")
+    @Transactional(readOnly = true)
     public String findAll(@PageDefault(size = 20) PageParams params) {
         return objectResult(userRepository.findAll(params.toPageable()));
     }
 
-    @Transactional(readOnly = true)
     @GetMapping("/api/users/{id}")
+    @Transactional(readOnly = true)
     public String findById(@PathVariable Long id) {
         return userRepository.findById(id, this::objectResult);
     }
 
-    @Transactional(readOnly = true)
     @GetMapping("/api/users/find/username/{username}")
+    @Transactional(readOnly = true)
     public String findByUsername(@PathVariable String username) {
         return userRepository.findByUsername(username, this::objectResult);
     }
