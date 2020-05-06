@@ -17,8 +17,7 @@ public abstract class SecurityUtils {
     }
 
     public static void doSecurityCheck(SecurityCheckFunction function) throws SecurityException {
-        User user = getCurrentUser().orElseThrow(() -> new SecurityException("你似乎并未正确认证"));
-        if (!function.apply(user.getRoles())) {
+        if (!function.apply(getUserOrThrow().getRoles())) {
             throw new SecurityException("权限不足以进行此操作");
         }
     }
@@ -37,6 +36,10 @@ public abstract class SecurityUtils {
 
     public static Optional<User> getCurrentUser() {
         return getCurrentToken().map(Token::getUser);
+    }
+
+    public static User getUserOrThrow() {
+        return getCurrentUser().orElseThrow(() -> new SecurityException("你似乎并未正确认证"));
     }
 
     public static String getCurrentUsername() {
