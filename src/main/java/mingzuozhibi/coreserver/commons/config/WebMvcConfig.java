@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import mingzuozhibi.coreserver.commons.support.Formatters;
 import mingzuozhibi.coreserver.commons.support.ReturnUtils;
 import mingzuozhibi.coreserver.commons.support.page.PageParamsResolver;
+import mingzuozhibi.coreserver.security.support.SecurityUtils;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.*;
@@ -30,11 +31,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @ResponseBody
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<String> exceptionHandler(HttpServletRequest request, Exception e) {
+        String username = SecurityUtils.getCurrentUsername();
         String method = request.getMethod();
         String uri = request.getRequestURI();
         String klass = e.getClass().getName();
         String message = e.getMessage();
-        String error = String.format("%s '%s' %s: %s", method, uri, klass, message);
+        String error = String.format("(%s)%s '%s' %s: %s", username, method, uri, klass, message);
         return responseError(error, e);
     }
 
